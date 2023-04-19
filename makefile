@@ -21,9 +21,13 @@ endif
 
 .PHONY: all lib obj clean test install uninstall
 
-all: obj lib
+all: libann obj lib
 
 windows: winobj winlib
+
+
+libann:
+	cd lib/libann; make
 
 obj:
 	$(MD) $(BUILDDIR)

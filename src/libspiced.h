@@ -1,5 +1,5 @@
-#ifndef __LIBLSMODEL_H__
-#define __LIBLSMODEL_H__
+#ifndef __LIBSPICED_H__
+#define __LIBSPICED_H__
 #include <stdio.h>
 #include <stdlib.h>
 

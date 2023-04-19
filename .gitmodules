@@ -1,0 +1,3 @@
+[submodule "lib/libann"]
+	path = lib/libann
+	url = https://github.com/mattkjames7/libann

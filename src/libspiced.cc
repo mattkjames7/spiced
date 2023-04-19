@@ -1,4 +1,4 @@
-#include "liblsmodel.h"
+#include "libspiced.h"
 
 /***********************************************************************
  * NAME : 	void initModels()
