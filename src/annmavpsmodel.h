@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "annmodel.h"
 #include "mavtrans.h"
-using namespace std;
 
 /***********************************************************************
  * NAME : 	class ANNMavPSModel

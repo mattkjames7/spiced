@@ -5,7 +5,6 @@
 #include <math.h>
 #include <ann.h>
 #include "rescale.h"
-using namespace std;
 
 /***********************************************************************
  * NAME : 	class ANNModel

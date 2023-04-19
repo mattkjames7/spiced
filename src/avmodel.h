@@ -8,7 +8,6 @@
 #include <math.h>
 #include "reversearray.h"
 
-using namespace std;
 
 /***********************************************************************
  * NAME : 	class AvModel

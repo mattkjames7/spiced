@@ -5,7 +5,6 @@
 #include "polynomial.h"
 #include "reversearray.h"
 #include <ann.h>
-using namespace std;
 extern unsigned char _binary_mavlambda_bin_start;
 
 /***********************************************************************

@@ -2,6 +2,26 @@
 #define __SPICED_H__
 #include <stdio.h>
 #include <stdlib.h>
+#include <ann.h>
+
+
+/* these are the memory addresses for the average model parameters */
+extern unsigned char _binary_mavh_bin_start;
+extern unsigned char _binary_mavcps_bin_start;
+extern unsigned char _binary_mavcpt_bin_start;
+extern unsigned char _binary_prob_bin_start;
+extern unsigned char _binary_ps_bin_start;
+extern unsigned char _binary_pt_bin_start;
+
+/* these are the memory addresses for the ANN model parameters */
+extern unsigned char _binary_mavhann_bin_start;
+extern unsigned char _binary_mavcpsann_bin_start;
+extern unsigned char _binary_mavcptann_bin_start;
+extern unsigned char _binary_probann_bin_start;
+extern unsigned char _binary_psann_bin_start;
+extern unsigned char _binary_ptann_bin_start;
+
+
 
 extern "C" {
 /***********************************************************************
@@ -967,6 +987,37 @@ void getScaledMavCart(int n, float *x, float *y, float *smr, bool ShowDC,
 				bool OnlyDC, bool Validate, int m0, int m1, float *out);
 }
 
+
+/***********************************************************************
+ * NAME : 	class MavTrans
+ * 
+ * DESCRIPTION : This object will handle the transformation of average
+ * 			ion masses. We use a Box-Cox transform where lambda is a 
+ * 			non-linear function of R.
+ * 
+ * 
+ * ********************************************************************/
+
+class MavTrans {
+	public:
+		MavTrans();
+		~MavTrans();
+		void PSTransform(int,float*,float*,float*);
+		void PTTransform(int,float*,float*,float*);
+		void PSRevTransform(int,float*,float*,float*);
+		void PTRevTransform(int,float*,float*,float*);
+	private:
+		void ReadCoefficients();
+	
+		/*These are the number of degrees in the polynomials*/
+		int nps_,npt_;
+		
+		/* polynomial coefficients */
+		double *ps_, *pt_;
+};
+
+
+
 /***********************************************************************
  * NAME : float rescaleSMR(smr)
  * 
@@ -1476,34 +1527,5 @@ class AvPTModel: public AvModel {
 		void Model(int,float*,float*,bool,bool,bool,int,int,bool,float*);
 		void ModelCart(int,float*,float*,bool,bool,bool,int,int,bool,float*);
 };
-
-/***********************************************************************
- * NAME : 	class MavTrans
- * 
- * DESCRIPTION : This object will handle the transformation of average
- * 			ion masses. We use a Box-Cox transform where lambda is a 
- * 			non-linear function of R.
- * 
- * 
- * ********************************************************************/
-
-class MavTrans {
-	public:
-		MavTrans();
-		~MavTrans();
-		void PSTransform(int,float*,float*,float*);
-		void PTTransform(int,float*,float*,float*);
-		void PSRevTransform(int,float*,float*,float*);
-		void PTRevTransform(int,float*,float*,float*);
-	private:
-		void ReadCoefficients();
-	
-		/*These are the number of degrees in the polynomials*/
-		int nps_,npt_;
-		
-		/* polynomial coefficients */
-		double *ps_, *pt_;
-};
-
 
 #endif

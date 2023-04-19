@@ -5,7 +5,6 @@
 #include "math.h"
 #include <ann.h>
 #endif
-using namespace std;
 
 /***********************************************************************
  * NAME : float rescaleSMR(smr)

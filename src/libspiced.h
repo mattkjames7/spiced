@@ -16,7 +16,6 @@
 #include "avptmodel.h"
 #include "annptmodel.h"
 #endif
-using namespace std;
 
 /* these are the memory addresses for the average model parameters */
 extern unsigned char _binary_mavh_bin_start;

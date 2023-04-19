@@ -140,8 +140,8 @@ void ANNPSModel::Model(int n, float *mlt, float *R, float *smr,
 	if (!OnlyDC) {
 		/* work out which components we will include based on m0 and m1*/
 		int i0, i1;
-		i0 = max(0,m0-1);
-		i1 = min(nm_-1,m1-1);
+		i0 = std::max(0,m0-1);
+		i1 = std::min(nm_-1,m1-1);
 		
 		/* now add them to the existing array */
 		for (i=i0;i<=i1;i++) {
