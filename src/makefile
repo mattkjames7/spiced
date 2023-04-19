@@ -29,8 +29,8 @@ endif
 all: obj lib
 
 obj:
-	mkdir -v $(BINDIR)
-ifeq ($(OS),Linux)
+	-mkdir -pv $(BINDIR)
+ifeq ($(OS),Darwin)
 	./macbins.sh "$(CCo)" $(BINDIR)
 
 else
@@ -43,13 +43,13 @@ else
 	ld -r -b binary -o $(BINDIR)/prob.o prob.bin
 
 	#these files contain the ANN weights, biases etc.
-	ld -r -b binary -o $(BINDIR)/mavhann.o mavhann.bin 
-	ld -r -b binary -o $(BINDIR)/mavcpsann.o mavcpsann.bin 
-	ld -r -b binary -o $(BINDIR)/mavcptann.o mavcptann.bin 
-	ld -r -b binary -o $(BINDIR)/psann.o psann.bin 
-	ld -r -b binary -o $(BINDIR)/ptann.o ptann.bin 
-	ld -r -b binary -o $(BINDIR)/probann.o probann.bin 
-	
+	ld -r -b binary -o $(BINDIR)/mavhann.o mavhann.bin
+	ld -r -b binary -o $(BINDIR)/mavcpsann.o mavcpsann.bin
+	ld -r -b binary -o $(BINDIR)/mavcptann.o mavcptann.bin
+	ld -r -b binary -o $(BINDIR)/psann.o psann.bin
+	ld -r -b binary -o $(BINDIR)/ptann.o ptann.bin
+	ld -r -b binary -o $(BINDIR)/probann.o probann.bin
+
 	#binary containing polynomals for mav transform
 	ld -r -b binary -o $(BINDIR)/mavlambda.o mavlambda.bin
 endif
@@ -74,9 +74,9 @@ endif
 	$(CCo) rescale.cc -o $(BUILDDIR)/rescale.o
 	$(CCo) reversearray.cc -o $(BUILDDIR)/reversearray.o
 	$(CCo) libspiced.cc -o $(BUILDDIR)/libspiced.o
-	
+
 lib:
-	$(CC) $(BINDIR)/*.o $(BUILDDIR)/*.o -fPIC -shared -o ../lib/libspiced.so $(LDFLAGS)
-	
+	$(CC) $(BINDIR)/*.o $(BUILDDIR)/*.o -fPIC -shared -o ../lib/$(LIBFILE) $(LDFLAGS)
+
 clean:
 	rm -v $(BUILDDIR)/*.o

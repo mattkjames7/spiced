@@ -1,6 +1,6 @@
 
 
-ifndef BUILDDIR 
+ifndef BUILDDIR
 	export BUILDDIR=$(shell pwd)/build
 endif
 
@@ -43,7 +43,7 @@ winobj:
 	$(MD) $(BUILDDIR)
 	cd src; make winobj
 
-winlib: 
+winlib:
 	$(MD) lib
 	cd src; make winlib
 
@@ -56,9 +56,9 @@ clean:
 	cd lib/libann; make clean
 	cd test; make clean
 	-rm -v $(BUILDDIR)/bin/*.o
-	-rmdir -v $(BUILDDIR)/bin/
+	-rm -vfr $(BUILDDIR)/bin/
 	-rm -v $(BUILDDIR)/*.o
-	-rmdir -v $(BUILDDIR)
+	-rm -vfr $(BUILDDIR)
 
 install:
 	cd lib/libann; make install

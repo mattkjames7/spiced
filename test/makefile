@@ -14,14 +14,14 @@ ifeq ($(OS),Linux)
 	CCo=g++ -fPIC -c $(CFLAGS) $(IFLAGS)
 	CC=g++ -fPIC $(CFLAGS) $(IFLAGS)
 else
-	LDFLAGS=-L ../lib -lspiced -L/usr/local/opt/libomp/lib -lomp../lib/libann/lib -lspiced
+	LDFLAGS=-L../lib -lspiced -L/usr/local/opt/libomp/lib -lomp #-L../lib/libann/lib/libann.dylib
 	CFLAGS=-lm -std=c++17 -Wextra -O3 "-I/usr/local/opt/libomp/include"
 	CCo=g++ -Xpreprocessor -fopenmp -c $(CFLAGS) $(IFLAGS)
 	CC=g++ -Xpreprocessor -fopenmp $(CFLAGS) $(IFLAGS)
 endif
 
 all:
-	$(CCo) matdot.cc -o matdot.o 
+	$(CCo) matdot.cc -o matdot.o
 	$(CCo) matdot.cc -o matdot.o
 	$(CCo) netfunc.cc -o netfunc.o
 	$(CCo) probmodels.cc -o probmodels.o
