@@ -23,11 +23,13 @@ endif
 
 all: libann obj lib
 
-windows: winobj winlib
-
+windows: libannwin winobj winlib
 
 libann:
 	cd lib/libann; make
+
+libannwin:
+	cd lib/libann; make windows
 
 obj:
 	$(MD) $(BUILDDIR)
@@ -52,30 +54,33 @@ test:
 
 clean:
 	#cd test; make clean
-	-rm -v lib/libann.so
-	-rm -v lib/libann.dll
-	-rm -v lib/libann.dylib
+	-rm -v lib/libspiced.so
+	-rm -v lib/libspiced.dll
+	-rm -v lib/libspiced.dylib
 	-rm -v build/*.o
 	-rmdir -v build
 
 install:
-	cp -v include/ann.h $(PREFIX)/include
+	cd lib/libann; make install
+
+	cp -v include/spiced.h $(PREFIX)/include
 
 ifeq ($(OS),Linux)
-	cp -v lib/libann.so $(PREFIX)/lib
-	chmod 0775 $(PREFIX)/lib/libann.so
+	cp -v lib/libspiced.so $(PREFIX)/lib
+	chmod 0775 $(PREFIX)/lib/libspiced.so
 	ldconfig
 else
-	cp -v lib/libann.dylib $(PREFIX)/lib
-	chmod 0775 $(PREFIX)/lib/libann.dylib
+	cp -v lib/libspiced.dylib $(PREFIX)/lib
+	chmod 0775 $(PREFIX)/lib/libspiced.dylib
 endif
 
 
 uninstall:
-	rm -v $(PREFIX)/include/ann.h
+	cd lib/libann; make uninstall
+	rm -v $(PREFIX)/include/spiced.h
 ifeq ($(OS),Linux)
-	rm -v $(PREFIX)/lib/libann.so
+	rm -v $(PREFIX)/lib/libspiced.so
 	ldconfig
 else
-	rm -v $(PREFIX)/lib/libann.dylib
+	rm -v $(PREFIX)/lib/libspiced.dylib
 endif
