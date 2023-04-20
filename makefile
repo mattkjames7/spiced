@@ -53,10 +53,8 @@ test:
 	cd test; make all
 
 clean:
-	#cd test; make clean
-	-rm -v lib/libspiced.so
-	-rm -v lib/libspiced.dll
-	-rm -v lib/libspiced.dylib
+	cd lib/libann; make clean
+	cd test; make clean
 	-rm -v build/*.o
 	-rmdir -v build
 
