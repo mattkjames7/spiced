@@ -5,7 +5,8 @@
 #include <ann.h>
 #include <algorithm>
 #include "polynomial.h"
-#include <math.h>
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "reversearray.h"
 
 
