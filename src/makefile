@@ -11,6 +11,7 @@ CCW=x86_64-w64-mingw32-g++-win32 $(CFLAGS)
 ifndef BUILDDIR
 	BUILDDIR=../build
 endif
+BINDIR=$(BUILDDIR)/bin
 
 OS=$(shell uname -s)
 ifeq ($(OS),Linux)
@@ -28,25 +29,31 @@ endif
 all: obj lib
 
 obj:
+	mkdir -v $(BINDIR)
+ifeq ($(OS),Linux)
+	./macbins.sh "$(CCo)" $(BINDIR)
+
+else
 	#these are the average model parameters
-	ld -r -b binary -o $(BUILDDIR)/mavh.o mavh.bin
-	ld -r -b binary -o $(BUILDDIR)/mavcps.o mavcps.bin
-	ld -r -b binary -o $(BUILDDIR)/mavcpt.o mavcpt.bin
-	ld -r -b binary -o $(BUILDDIR)/ps.o ps.bin
-	ld -r -b binary -o $(BUILDDIR)/pt.o pt.bin
-	ld -r -b binary -o $(BUILDDIR)/prob.o prob.bin
+	ld -r -b binary -o $(BINDIR)/mavh.o mavh.bin
+	ld -r -b binary -o $(BINDIR)/mavcps.o mavcps.bin
+	ld -r -b binary -o $(BINDIR)/mavcpt.o mavcpt.bin
+	ld -r -b binary -o $(BINDIR)/ps.o ps.bin
+	ld -r -b binary -o $(BINDIR)/pt.o pt.bin
+	ld -r -b binary -o $(BINDIR)/prob.o prob.bin
 
 	#these files contain the ANN weights, biases etc.
-	ld -r -b binary -o $(BUILDDIR)/mavhann.o mavhann.bin 
-	ld -r -b binary -o $(BUILDDIR)/mavcpsann.o mavcpsann.bin 
-	ld -r -b binary -o $(BUILDDIR)/mavcptann.o mavcptann.bin 
-	ld -r -b binary -o $(BUILDDIR)/psann.o psann.bin 
-	ld -r -b binary -o $(BUILDDIR)/ptann.o ptann.bin 
-	ld -r -b binary -o $(BUILDDIR)/probann.o probann.bin 
+	ld -r -b binary -o $(BINDIR)/mavhann.o mavhann.bin 
+	ld -r -b binary -o $(BINDIR)/mavcpsann.o mavcpsann.bin 
+	ld -r -b binary -o $(BINDIR)/mavcptann.o mavcptann.bin 
+	ld -r -b binary -o $(BINDIR)/psann.o psann.bin 
+	ld -r -b binary -o $(BINDIR)/ptann.o ptann.bin 
+	ld -r -b binary -o $(BINDIR)/probann.o probann.bin 
 	
 	#binary containing polynomals for mav transform
-	ld -r -b binary -o $(BUILDDIR)/mavlambda.o mavlambda.bin
-	
+	ld -r -b binary -o $(BINDIR)/mavlambda.o mavlambda.bin
+endif
+
 	#source code
 	$(CCo) annmodel.cc -o $(BUILDDIR)/annmodel.o
 	$(CCo) annmavhmodel.cc -o $(BUILDDIR)/annmavhmodel.o
@@ -69,7 +76,7 @@ obj:
 	$(CCo) libspiced.cc -o $(BUILDDIR)/libspiced.o
 	
 lib:
-	$(CC) $(BUILDDIR)/*.o -fPIC -shared -o ../lib/libspiced.so $(LDFLAGS)
+	$(CC) $(BINDIR)/*.o $(BUILDDIR)/*.o -fPIC -shared -o ../lib/libspiced.so $(LDFLAGS)
 	
 clean:
 	rm -v $(BUILDDIR)/*.o

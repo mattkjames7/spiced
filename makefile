@@ -55,8 +55,10 @@ test:
 clean:
 	cd lib/libann; make clean
 	cd test; make clean
-	-rm -v build/*.o
-	-rmdir -v build
+	-rm -v $(BUILDDIR)/bin/*.o
+	-rmdir -v $(BUILDDIR)/bin/
+	-rm -v $(BUILDDIR)/*.o
+	-rmdir -v $(BUILDDIR)
 
 install:
 	cd lib/libann; make install
