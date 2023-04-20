@@ -15,8 +15,8 @@ endif
 OS=$(shell uname -s)
 ifeq ($(OS),Linux)
 	LIBFILE=libspiced.so
-	CCo=g++ -c $(CFLAGS) $(IFLAGS)
-	CC=g++ $(CFLAGS) $(IFLAGS)
+	CCo=g++ -c $(CFLAGS) -fopenmp $(IFLAGS)
+	CC=g++ $(CFLAGS) -fopenmp $(IFLAGS)
 else
 	LIBFILE=libspiced.dylib
 	LDFLAGS="-L/usr/local/opt/libomp/lib" -lomp
