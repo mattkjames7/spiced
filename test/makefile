@@ -26,6 +26,8 @@ TEST_SOURCES = test_probmodels.cc \
                test_mavptmodels.cc \
                test_mavtrans.cc \
                test_netfunc.cc \
+               test_utils.cc \
+               test_c_api.cc \
                test_runner.cc
 
 TEST_OBJECTS = $(TEST_SOURCES:.cc=.o)
