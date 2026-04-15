@@ -26,3 +26,6 @@
 *.exe
 *.out
 *.app
+
+# External dependencies
+external/

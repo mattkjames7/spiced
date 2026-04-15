@@ -50,7 +50,7 @@ winlib:
 
 
 test:
-	cd test; make all
+	cd test; make test
 
 clean:
 	cd lib/libann; make clean
