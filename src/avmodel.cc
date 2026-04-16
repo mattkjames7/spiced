@@ -27,7 +27,7 @@ void AvModel::ReadModelParams(unsigned char *ptr) {
 	
 	/* reverse the elements of the array */
 	int i,j;
-	for (i=0;i<Rshape_[1];i++) {
+	for (i=0;i<Rshape_[1];i++) {  // I think this might be a bug: should it be Rshape_[0]?
 		reverseArray(Rshape_[1],R_[i]);
 	}
 
