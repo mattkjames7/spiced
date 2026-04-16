@@ -1151,7 +1151,7 @@ void reverseArray(int n, double *x);
 class ANNModel {
 	public:
 		/* This ann will provide the components of the model */
-		NetworkFunc *ann_;
+		ann::NetworkFunc *ann_;
 		
 		/* Load the neural network */
 		void LoadANN(unsigned char *);

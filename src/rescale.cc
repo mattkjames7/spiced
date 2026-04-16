@@ -32,7 +32,7 @@ const double gDensigma = 2.49992799758911132812;
  * 
  * ********************************************************************/
 float rescaleSMR(float smr) {
-	return BoxCox(smr,gSMRlambda,gSMRshift,gSMRmu,gSMRsigma);
+	return ann::BoxCox(smr,gSMRlambda,gSMRshift,gSMRmu,gSMRsigma);
 }
 
 /***********************************************************************
@@ -49,7 +49,7 @@ float rescaleSMR(float smr) {
  * 
  * ********************************************************************/
 float rescaleF107(float f107) {
-	return BoxCox(f107,gF107lambda,gF107shift,gF107mu,gF107sigma);
+	return ann::BoxCox(f107,gF107lambda,gF107shift,gF107mu,gF107sigma);
 }
 
 /***********************************************************************
@@ -83,5 +83,5 @@ float rescaleR(float R) {
  * 
  * ********************************************************************/
 float unscaleDensity(float dt) {
-	return ReverseBoxCox(dt,gDenlambda,gDenshift,gDenmu,gDensigma);	
+	return ann::ReverseBoxCox(dt,gDenlambda,gDenshift,gDenmu,gDensigma);	
 }

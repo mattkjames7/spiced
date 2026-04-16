@@ -13,7 +13,7 @@
 void ANNModel::LoadANN(unsigned char *ptr) {
 
 	/* create the NetworkFunc object */
-	ann_ = new NetworkFunc(ptr,"softplus","linear","mean_squared");
+	ann_ = new ann::NetworkFunc(ptr,"softplus","linear","mean_squared");
 	
 	/* use the ann_ class to work out the maximum m number */
 	nm_ = (ann_->s_[ann_->L_-1] - 1)/2;

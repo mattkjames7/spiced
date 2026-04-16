@@ -189,8 +189,8 @@ void AvPTModel::Model(int n, float *mlt, float *R,
 	float shift = 0.0;
 	float lambda = 0.06542969;
 	if (RevTrans) {
-		ReverseBoxCox(n,out,lambda,shift,0.0,1.0,out);
-		ReverseBoxCox(n,dc,lambda,shift,0.0,1.0,dc);
+		ann::ReverseBoxCox(n,out,lambda,shift,0.0,1.0,out);
+		ann::ReverseBoxCox(n,dc,lambda,shift,0.0,1.0,dc);
 	}
 	
 	/* remove the DC component if we need to */

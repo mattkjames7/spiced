@@ -20,10 +20,10 @@ void AvModel::ReadModelParams(unsigned char *ptr) {
 	unsigned char *p = ptr;
 
 	/* now let's read in the data starting with the DC stuff*/
-	p = readArray(p,&dc_,&ndc_);
+	p = ann::readArray(p,&dc_,&ndc_);
 	
 	/* Real components */
-	p = readArray(p,&R_,Rshape_);
+	p = ann::readArray(p,&R_,Rshape_);
 	
 	/* reverse the elements of the array */
 	int i,j;
@@ -32,7 +32,7 @@ void AvModel::ReadModelParams(unsigned char *ptr) {
 	}
 
 	/* Imaginary bits */
-	p = readArray(p,&I_,Ishape_);
+	p = ann::readArray(p,&I_,Ishape_);
 
 	/* reverse the elements of the array */
 	for (i=0;i<Ishape_[1];i++) {
