@@ -1,5 +1,6 @@
 # Find or fetch Google Test
 include(FetchContent)
+include(GoogleTest)
 
 FetchContent_Declare(
     googletest
@@ -47,8 +48,12 @@ target_link_libraries(run_tests PRIVATE
     OpenMP::OpenMP_CXX
 )
 
-# Add the tests to CTest
-add_test(NAME SpicedTests COMMAND run_tests)
+# Discover and add individual tests to CTest
+gtest_discover_tests(
+    run_tests
+    DISCOVERY_TIMEOUT 30
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:run_tests>
+)
 
 # Optional: Set RPATH for finding shared libraries at runtime
 if(APPLE)
