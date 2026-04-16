@@ -1,8 +1,24 @@
 import numpy as np
 import os
 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = os.path.join(CURRENT_DIR, '..', 'src')
+
+model_files = {
+    "mav.bin": "Average ion mass",
+    "mavcpt.bin": "Average cold ion mass (plasmatrough)",
+    "mavcps.bin": "Average cold ion mass (plasmasphere)",
+    "mavh.bin": "Average hot ion mass",
+    "prob.bin": "Probability of being in the plasmasphere",
+    "ps.bin": "Electron density (plasmasphere)",
+    "pt.bin": "Electron density (plasmatrough)"
+}
+
+
 
 def read_array(f: open) -> np.ndarray:
+
+    print(f"Reading array from {f.name}...")
 
     # length of the array
     l = int.from_bytes(f.read(4), byteorder='little')
@@ -29,39 +45,74 @@ def read_model_params(fname: str) -> dict:
     return params
 
 
-def save_model_params(params: dict, fname: str):
+def convert_static_model_params(fname: str, model_description: str):
     """
-    Save model parameters to a C++ header file.
 
     The floats need to be formatted in hexadecimal float literals
     """
+    params = read_model_params(fname)
 
-    buffer = """
-#include <vector>
-#include <cstdint>
+    dc = params["dc"]
+    real = params["real"]
+    imag = params["imag"]
 
-typedef struct {
-  int8_t dc_degree;                            /* DC polynomial degrees */
-  int8_t m_degree;                             /* Real/imaginary polynomial degrees */
-  std::vector<float32_t> dc;
-  std::vector<std::vector<float32_t>> real;
-  std::vector<std::vector<float32_t>> imag;
-} ModelParams;
+    if real.ndim != 2 or imag.ndim != 2:
+        raise ValueError("Expected 2D arrays for real and imag model terms")
+
+    dc_degree = int(dc.size) - 1
+    m_degree = int(real.shape[1]) - 1
 
 
-"""
-
-    buffer += f"const ModelParams {params['name']} = {{\n"
-    buffer += "  {" + ", ".join(float(x).hex() for x in params['dc'][::-1].flatten()) + "},\n"
+    buffer = f"/* {model_description} */\n"
+    buffer += f"inline const ModelParams {params['name']} = {{\n"
+    buffer += f"  {dc_degree},\n"
+    buffer += f"  {m_degree},\n"
+    buffer += "  {" + ", ".join(float(x).hex() for x in dc[::-1].flatten()) + "},\n"
     buffer += "  {\n"
-    for row in params['real']:
+    for row in real:
         buffer += "    {" + ", ".join(float(x).hex() for x in row[::-1]) + "},\n"
     buffer += "  },\n"
     buffer += "  {\n"
-    for row in params['imag']:
-        buffer += "    {" + ", ".join(float(x).hex() for x in row) + "},\n"
+    for row in imag:
+        buffer += "    {" + ", ".join(float(x).hex() for x in row[::-1]) + "},\n"
     buffer += "  }\n"
-    buffer += "};\n"
+    buffer += "};\n\n"
 
-    with open(fname, 'w') as f:
+    return buffer
+
+
+
+def save_static_model_header():
+
+    buffer = """
+#pragma once
+
+#include <cstdint>
+#include <vector>
+
+struct ModelParams {
+  int8_t dc_degree;                            /* DC polynomial degree */
+  int8_t m_degree;                             /* Real/imaginary polynomial degree */
+  std::vector<float> dc;
+  std::vector<std::vector<float>> real;
+  std::vector<std::vector<float>> imag;
+};
+
+"""
+    for file, description in model_files.items():
+        fname = os.path.join(SRC_DIR, file)
+        buffer += convert_static_model_params(fname, description)
+
+    header_path = os.path.join(SRC_DIR, "model_params.h")
+    with open(header_path, 'w') as f:
         f.write(buffer)
+    print(f"Saved model parameters to {header_path}")
+
+
+def main():
+
+    save_static_model_header()
+
+
+if __name__ == "__main__":
+    main()
