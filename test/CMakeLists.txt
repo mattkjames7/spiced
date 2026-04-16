@@ -11,7 +11,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# List of test files (excluding old_tests)
+# List of active test files
 set(TEST_SOURCES
     test_probmodels.cc
     test_psmodels.cc

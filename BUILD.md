@@ -64,6 +64,7 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 - `CMakeLists.txt` - Root CMake configuration
 - `src/CMakeLists.txt` - Main library build configuration
 - `test/CMakeLists.txt` - Test suite configuration
+- `examples/package-consumer/` - Example external project using `find_package(spiced)`
 - `cmake/spicedConfig.cmake.in` - Installed package configuration template
 - `include/spiced.h` - Public header file
 
@@ -131,4 +132,22 @@ After installation, consumers can use the exported CMake package:
 ```cmake
 find_package(spiced CONFIG REQUIRED)
 target_link_libraries(my_app PRIVATE spiced::spiced)
+```
+
+The installed package currently exports both `spiced` and its fetched `ann` dependency in the same export set so consumers get a self-consistent target graph.
+
+## Consumer Example
+
+A standalone consumer example lives in `examples/package-consumer/` and can be validated against an installed prefix:
+
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+rm -rf /tmp/spiced-install
+cmake --install build --prefix /tmp/spiced-install
+
+cmake -S examples/package-consumer -B examples/package-consumer/build \
+	-DCMAKE_PREFIX_PATH=/tmp/spiced-install
+cmake --build examples/package-consumer/build
+./examples/package-consumer/build/spiced_package_example
 ```

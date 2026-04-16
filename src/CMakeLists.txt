@@ -142,6 +142,12 @@ set_target_properties(spiced PROPERTIES
     EXPORT_NAME spiced
 )
 
+if(APPLE)
+    set_target_properties(spiced PROPERTIES INSTALL_RPATH "@loader_path")
+elseif(UNIX)
+    set_target_properties(spiced PROPERTIES INSTALL_RPATH "$ORIGIN")
+endif()
+
 # Installation
 install(TARGETS spiced
     EXPORT spicedTargets

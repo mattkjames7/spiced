@@ -22,6 +22,18 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(libann)
 
+if(APPLE)
+    set(_spiced_install_rpath "@loader_path")
+elseif(UNIX)
+    set(_spiced_install_rpath "$ORIGIN")
+endif()
+
+if(DEFINED _spiced_install_rpath)
+    set_target_properties(ann PROPERTIES
+        INSTALL_RPATH "${_spiced_install_rpath}"
+    )
+endif()
+
 install(TARGETS ann
     EXPORT spicedTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

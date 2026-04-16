@@ -4,7 +4,7 @@ This directory contains unit tests for the spiced module using Google Test (gtes
 
 ## Overview
 
-The test suite has been restructured to use proper unit testing practices with automated assertions rather than manual verification. Each test file focuses on specific components of the spiced library.
+The test suite uses Google Test with automated assertions. Each test file focuses on specific components of the spiced library.
 
 ## Test Files
 
@@ -18,19 +18,6 @@ The test suite has been restructured to use proper unit testing practices with a
 - **test_mavtrans.cc** - Tests for MavTrans transformations (forward and reverse)
 - **test_netfunc.cc** - Tests for NetworkFunc ANN predictions
 - **test_runner.cc** - Main test runner entry point
-
-### Legacy Test Files (deprecated)
-The following files use the old manual verification approach and will be removed:
-- probmodels.cc/h
-- psmodels.cc/h
-- ptmodels.cc/h
-- mavhmodels.cc/h
-- mavpsmodels.cc/h
-- mavptmodels.cc/h
-- testmavtrans.cc/h
-- netfunc.cc/h
-- test.cc/h
-- **matdot.cc/h** - Removed (functionality now tested in libann module)
 
 ## Building and Running Tests
 
@@ -81,15 +68,6 @@ Expected equality of these values:
     Which is: 0.93885595
 Mismatch at index 2: M=12, R=3
 ```
-
-## Migration Notes
-
-The new test structure provides:
-- **Automated verification** - No manual inspection of output required
-- **Better regression detection** - Tests fail immediately when values change
-- **CI/CD integration** - Tests can run in automated pipelines
-- **Better debugging** - Failures show exact location and values
-- **Test isolation** - Each test runs independently
 
 ## Future Enhancements
 
