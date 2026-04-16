@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.20)
-
 # List of source files
 set(SPICED_SOURCES
     annmodel.cc
@@ -98,28 +96,34 @@ endif()
 
 set_target_properties(spiced_embedded_data PROPERTIES
     LINKER_LANGUAGE CXX
+    POSITION_INDEPENDENT_CODE ON
 )
+
+add_library(spiced::embedded_data ALIAS spiced_embedded_data)
 
 # Create the main library
 add_library(spiced SHARED ${SPICED_SOURCES})
+add_library(spiced::spiced ALIAS spiced)
 
 # Set include directories
-target_include_directories(spiced PRIVATE 
-    "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_BINARY_DIR}/_deps/libann-src/include"
+target_include_directories(spiced PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
+    "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/_deps/libann-src/include>"
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 
-target_include_directories(spiced PUBLIC
-    "${CMAKE_SOURCE_DIR}/include"
+target_include_directories(spiced PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 # Link libann
-target_link_libraries(spiced PUBLIC ann)
-target_link_libraries(spiced PRIVATE spiced_embedded_data)
+target_link_libraries(spiced PRIVATE
+    $<BUILD_INTERFACE:ann>
+    spiced_embedded_data
+)
 
 # Compiler flags
 target_compile_options(spiced PRIVATE 
-    -fPIC 
     -Wextra
     -O3
 )
@@ -135,12 +139,18 @@ target_link_libraries(spiced PRIVATE m)
 set_target_properties(spiced PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
+    EXPORT_NAME spiced
 )
 
 # Installation
 install(TARGETS spiced
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include
+    EXPORT spicedTargets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-install(FILES "../include/spiced.h" DESTINATION include)
+install(FILES "${CMAKE_SOURCE_DIR}/include/spiced.h"
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)

@@ -35,48 +35,15 @@ The following files use the old manual verification approach and will be removed
 ## Building and Running Tests
 
 ### Prerequisites
-- Google Test (gtest) library must be installed
 - C++17 compatible compiler
-- The spiced library must be built first
-
-### Install Google Test (if needed)
-
-**Ubuntu/Debian:**
-```bash
-sudo apt-get install libgtest-dev cmake
-cd /usr/src/gtest
-sudo cmake .
-sudo make
-sudo cp lib/*.a /usr/lib
-```
-
-**macOS:**
-```bash
-brew install googletest
-```
-
-**Fedora/RHEL:**
-```bash
-sudo dnf install gtest-devel
-```
+- CMake 3.20 or later
+- Git access so CMake can fetch dependencies
 
 ### Build and Run Tests
 ```bash
-# Using the new gtest makefile
-make -f makefile.gtest
-
-# Build and run tests
-make -f makefile.gtest test
-
-# Clean build artifacts
-make -f makefile.gtest clean
-```
-
-To switch to the new makefile permanently:
-```bash
-mv makefile makefile.old
-mv makefile.gtest makefile
-make test
+cmake -S .. -B ../build -DCMAKE_BUILD_TYPE=Release
+cmake --build ../build
+ctest --test-dir ../build --output-on-failure
 ```
 
 ## Test Structure

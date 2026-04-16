@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.20)
-
 # Find or fetch Google Test
 include(FetchContent)
 
@@ -65,5 +63,3 @@ elseif(UNIX AND NOT APPLE)
     )
 endif()
 
-# Installation (optional)
-install(TARGETS run_tests DESTINATION bin)

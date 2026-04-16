@@ -1,20 +1,18 @@
 cmake_minimum_required(VERSION 3.20)
-project(spiced 
+
+project(spiced
         VERSION 0.1.0
         DESCRIPTION "C++ SPICED model code"
         LANGUAGES CXX)
 
-# Set C++ standard
+include(CMakePackageConfigHelpers)
+include(FetchContent)
+include(GNUInstallDirs)
+include(CTest)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Default install path
-if(NOT CMAKE_INSTALL_PREFIX)
-    set(CMAKE_INSTALL_PREFIX /usr/local)
-endif()
-
-# Find or fetch libann v0.1.0
-include(FetchContent)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 FetchContent_Declare(
     libann
@@ -24,9 +22,46 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(libann)
 
-# Enable testing
-enable_testing()
+install(TARGETS ann
+    EXPORT spicedTargets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 
-# Add subdirectories
 add_subdirectory(src)
-add_subdirectory(test)
+
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()
+
+set(SPICED_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/spiced")
+
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/spicedConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/spicedConfig.cmake"
+    INSTALL_DESTINATION "${SPICED_CMAKE_INSTALL_DIR}"
+)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/spicedConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+install(EXPORT spicedTargets
+    FILE spicedTargets.cmake
+    NAMESPACE spiced::
+    DESTINATION "${SPICED_CMAKE_INSTALL_DIR}"
+)
+
+install(
+    FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/spicedConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/spicedConfigVersion.cmake"
+    DESTINATION "${SPICED_CMAKE_INSTALL_DIR}"
+)
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/licenses/spiced"
+)

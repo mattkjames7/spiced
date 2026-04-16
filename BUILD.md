@@ -1,6 +1,6 @@
 # Building SPICED with CMake
 
-This project has been converted from Make to CMake for better build management and cross-platform support.
+This project uses a CMake-only build. The old Make and batch-script workflow has been retired.
 
 ## Prerequisites
 
@@ -10,15 +10,15 @@ This project has been converted from Make to CMake for better build management a
 - Git (for FetchContent to work)
 
 ### Optional
-- Google Test (will be fetched automatically)
-- libann v0.1.0 or later (will be fetched automatically via FetchContent)
+- Google Test (fetched automatically when tests are enabled)
+- libann v0.1.0 or later (fetched automatically via FetchContent)
 
 ## Quick Start
 
 ### Configure the build
 
 ```bash
-cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 ```
 
 ### Build
@@ -30,17 +30,13 @@ cmake --build build
 ### Run tests
 
 ```bash
-cmake --build build --target test
-# or
-cd build && ctest
+ctest --test-dir build --output-on-failure
 ```
 
 ### Install
 
 ```bash
 cmake --install build
-# or
-sudo cmake --install build  # if using system default /usr/local prefix
 ```
 
 ## Build Options
@@ -48,19 +44,19 @@ sudo cmake --install build  # if using system default /usr/local prefix
 ### Custom installation prefix
 
 ```bash
-cmake -B build -DCMAKE_INSTALL_PREFIX=/path/to/install
+cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/path/to/install
 ```
 
 ### Debug build with symbols
 
 ```bash
-cmake -B build -DCMAKE_BUILD_TYPE=Debug
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 ```
 
 ### Release build with optimizations
 
 ```bash
-cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 ```
 
 ## Project Structure
@@ -68,6 +64,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release
 - `CMakeLists.txt` - Root CMake configuration
 - `src/CMakeLists.txt` - Main library build configuration
 - `test/CMakeLists.txt` - Test suite configuration
+- `cmake/spicedConfig.cmake.in` - Installed package configuration template
 - `include/spiced.h` - Public header file
 
 ## Dependencies
@@ -75,7 +72,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release
 The build automatically fetches:
 
 1. **libann v0.1.0** - Neural network library (via FetchContent)
-2. **Google Test** - Unit testing framework (via FetchContent) - only used for tests
+2. **Google Test** - Unit testing framework (via FetchContent, only when `BUILD_TESTING=ON`)
 
 ## Binary Data Files
 
@@ -121,10 +118,17 @@ brew install libomp
 - Check that git is installed and available in PATH
 - Verify GitHub is accessible from your network
 
-## Previous Build System
+### Disable tests during packaging builds
 
-The repository previously used Make-based build system. The migration to CMake provides:
-- Better cross-platform support
-- Automated dependency management (FetchContent)
-- Integrated test discovery and reporting
-- Improved IDE integration
+```bash
+cmake -S . -B build -DBUILD_TESTING=OFF
+```
+
+## Package Consumption
+
+After installation, consumers can use the exported CMake package:
+
+```cmake
+find_package(spiced CONFIG REQUIRED)
+target_link_libraries(my_app PRIVATE spiced::spiced)
+```
