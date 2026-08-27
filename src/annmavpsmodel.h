@@ -18,7 +18,7 @@
 class ANNMavPSModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNMavPSModel(unsigned char *);
+		ANNMavPSModel();
 		
 		/* destructor for the model object */
 		~ANNMavPSModel();
@@ -32,4 +32,3 @@ class ANNMavPSModel: public ANNModel {
 };
 
 #endif
-

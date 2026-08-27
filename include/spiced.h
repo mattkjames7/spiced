@@ -5,15 +5,8 @@
 #include <ann.h>
 
 struct ModelParams;
+struct ANNModelParams;
 
-
-/* these are the memory addresses for the ANN model parameters */
-extern unsigned char _binary_mavhann_bin_start;
-extern unsigned char _binary_mavcpsann_bin_start;
-extern unsigned char _binary_mavcptann_bin_start;
-extern unsigned char _binary_probann_bin_start;
-extern unsigned char _binary_psann_bin_start;
-extern unsigned char _binary_ptann_bin_start;
 
 
 
@@ -1148,7 +1141,7 @@ class ANNModel {
 		ann::NetworkFunc *ann_;
 		
 		/* Load the neural network */
-		void LoadANN(unsigned char *);
+		void LoadANN(const ANNModelParams &);
 		
 		/* calculate the model components */
 		/* Calculate the model components */
@@ -1178,7 +1171,7 @@ class ANNModel {
 class ANNMavHModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNMavHModel(unsigned char *);
+		ANNMavHModel();
 		
 		/* destructor for the model object */
 		~ANNMavHModel();
@@ -1201,7 +1194,7 @@ class ANNMavHModel: public ANNModel {
 class ANNMavPSModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNMavPSModel(unsigned char *);
+		ANNMavPSModel();
 		
 		/* destructor for the model object */
 		~ANNMavPSModel();
@@ -1228,7 +1221,7 @@ class ANNMavPSModel: public ANNModel {
 class ANNMavPTModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNMavPTModel(unsigned char *);
+		ANNMavPTModel();
 		
 		/* destructor for the model object */
 		~ANNMavPTModel();
@@ -1252,7 +1245,7 @@ class ANNMavPTModel: public ANNModel {
 class ANNProbModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNProbModel(unsigned char *);
+		ANNProbModel();
 		
 		/* destructor for the model object */
 		~ANNProbModel();
@@ -1273,7 +1266,7 @@ class ANNProbModel: public ANNModel {
 class ANNPSModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNPSModel(unsigned char *);
+		ANNPSModel();
 		
 		/* destructor for the model object */
 		~ANNPSModel();
@@ -1294,7 +1287,7 @@ class ANNPSModel: public ANNModel {
 class ANNPTModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNPTModel(unsigned char *);
+		ANNPTModel();
 		
 		/* destructor for the model object */
 		~ANNPTModel();

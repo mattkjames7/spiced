@@ -41,7 +41,7 @@ TEST_F(PTModelsTest, AveragePTModel) {
 }
 
 TEST_F(PTModelsTest, ANNPTModel) {
-    ANNPTModel ann(&_binary_ptann_bin_start);
+    ANNPTModel ann;
     
     ann.Model(n, M.data(), R.data(), SMR.data(), true, false, true, 1, 3, true, out.data());
     

@@ -36,14 +36,14 @@ protected:
 
 TEST_F(NetworkFuncTest, CreateNetworkFunc) {
     // Test that we can create a NetworkFunc object
-    ann::NetworkFunc ann(&_binary_mavhann_bin_start, "softplus", "linear", "mean_squared");
+    ANNMavHModel ann;
     
     // If we get here without crashing, the object was created successfully
     SUCCEED();
 }
 
 TEST_F(NetworkFuncTest, PredictModelComponents) {
-    ann::NetworkFunc ann(&_binary_mavhann_bin_start, "softplus", "linear", "mean_squared");
+    ANNMavHModel ann;
     
     // Prepare input - rescale R and F10.7 values
     std::vector<float*> anin_ptrs(n);
@@ -57,7 +57,7 @@ TEST_F(NetworkFuncTest, PredictModelComponents) {
     }
     
     // Predict
-    ann.Predict(n, anin_ptrs.data(), anout_ptrs.data());
+    ann.ann_->Predict(n, anin_ptrs.data(), anout_ptrs.data());
     
     // Verify outputs match expected values
     for (int i = 0; i < n; i++) {

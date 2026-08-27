@@ -41,7 +41,7 @@ TEST_F(MavPSModelsTest, AverageMavPSModel) {
 }
 
 TEST_F(MavPSModelsTest, ANNMavPSModel) {
-    ANNMavPSModel ann(&_binary_mavcpsann_bin_start);
+    ANNMavPSModel ann;
     
     ann.Model(n, M.data(), R.data(), smr.data(), true, false, true, 1, 3, true, out.data());
     

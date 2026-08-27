@@ -23,13 +23,7 @@ set(SPICED_SOURCES
 
 # List of binary files to embed
 set(BINARY_FILES
-    mavhann
-    mavcpsann
-    mavcptann
     mavlambda
-    psann
-    ptann
-    probann
 )
 
 # Create directory for generated object files

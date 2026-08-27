@@ -41,7 +41,7 @@ TEST_F(PSModelsTest, AveragePSModel) {
 }
 
 TEST_F(PSModelsTest, ANNPSModel) {
-    ANNPSModel ann(&_binary_psann_bin_start);
+    ANNPSModel ann;
     
     ann.Model(n, M.data(), R.data(), SMR.data(), true, false, true, 1, 3, true, out.data());
     

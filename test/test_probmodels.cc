@@ -41,7 +41,7 @@ TEST_F(ProbModelsTest, AverageProbModel) {
 }
 
 TEST_F(ProbModelsTest, ANNProbModel) {
-    ANNProbModel ann(&_binary_probann_bin_start);
+    ANNProbModel ann;
     
     ann.Model(n, M.data(), R.data(), SMR.data(), true, false, true, 1, 3, out.data());
     

@@ -30,22 +30,22 @@ void initModels() {
 	
 	/* check if the ANN models are loaded */
 	if (gAnnMavH == NULL) {
-		gAnnMavH = new ANNMavHModel(&_binary_mavhann_bin_start);
+		gAnnMavH = new ANNMavHModel();
 	}
 	if (gAnnMavPS == NULL) {
-		gAnnMavPS = new ANNMavPSModel(&_binary_mavcpsann_bin_start);
+		gAnnMavPS = new ANNMavPSModel();
 	}
 	if (gAnnMavPT == NULL) {
-		gAnnMavPT = new ANNMavPTModel(&_binary_mavcptann_bin_start);
+		gAnnMavPT = new ANNMavPTModel();
 	}
 	if (gAnnProb == NULL) {
-		gAnnProb = new ANNProbModel(&_binary_probann_bin_start);
+		gAnnProb = new ANNProbModel();
 	}
 	if (gAnnPS == NULL) {
-		gAnnPS = new ANNPSModel(&_binary_psann_bin_start);
+		gAnnPS = new ANNPSModel();
 	}
 	if (gAnnPT == NULL) {
-		gAnnPT = new ANNPTModel(&_binary_ptann_bin_start);
+		gAnnPT = new ANNPTModel();
 	}
 	
 }

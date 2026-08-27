@@ -10,11 +10,11 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-ANNProbModel::ANNProbModel(unsigned char *ptr) {
+ANNProbModel::ANNProbModel() {
 	
 	/* I think that we just need to read the model in and load the
 	 * ANNModel object */
-	LoadANN(ptr);
+	LoadANN(probann);
 	
 	
 }
@@ -179,7 +179,6 @@ void ANNProbModel::Model(int n, float *mlt, float *R, float *smr,
 	delete [] smrs;
 		
 }
-
 
 
 

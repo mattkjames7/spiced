@@ -15,7 +15,7 @@
 class ANNProbModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNProbModel(unsigned char *);
+		ANNProbModel();
 		
 		/* destructor for the model object */
 		~ANNProbModel();
@@ -25,5 +25,4 @@ class ANNProbModel: public ANNModel {
 		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,float*);	
 };
 #endif
-
 

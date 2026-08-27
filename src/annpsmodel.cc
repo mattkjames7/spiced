@@ -10,11 +10,11 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-ANNPSModel::ANNPSModel(unsigned char *ptr) {
+ANNPSModel::ANNPSModel() {
 	
 	/* I think that we just need to read the model in and load the
 	 * ANNModel object */
-	LoadANN(ptr);
+	LoadANN(psann);
 	
 	
 }
@@ -189,7 +189,6 @@ void ANNPSModel::Model(int n, float *mlt, float *R, float *smr,
 	delete [] smrs;
 		
 }
-
 
 
 
