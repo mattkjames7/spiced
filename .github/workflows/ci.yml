@@ -109,7 +109,8 @@ jobs:
           cmake --install build --prefix "$RUNNER_TEMP/spiced-install"
           cmake -S examples/package-consumer \
             -B examples/package-consumer/build \
-            -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/spiced-install"
+            -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/spiced-install" \
+            -DOpenMP_ROOT="$(brew --prefix libomp)"
           cmake --build examples/package-consumer/build
           ./examples/package-consumer/build/spiced_package_example
 
