@@ -3,34 +3,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "avmavhmodel.h"
-#include "avmavpsmodel.h"
-#include "avmavptmodel.h"
-#include "annmavhmodel.h"
-#include "annmavpsmodel.h"
-#include "annmavptmodel.h"
-#include "avprobmodel.h"
-#include "annprobmodel.h"
-#include "avpsmodel.h"
-#include "annpsmodel.h"
-#include "avptmodel.h"
-#include "annptmodel.h"
+#include "avmodel.h"
+#include "annmodel.h"
 #endif
 
 /* this is where the models will be stored during runtime */
-AvMavHModel *gAvMavH = NULL;
-AvMavPSModel *gAvMavPS = NULL;
-AvMavPTModel *gAvMavPT = NULL;
-AvProbModel *gAvProb = NULL;
-AvPSModel *gAvPS = NULL;
-AvPTModel *gAvPT = NULL;
+AvModel *gAvMavH = NULL;
+AvModel *gAvMavPS = NULL;
+AvModel *gAvMavPT = NULL;
+AvModel *gAvProb = NULL;
+AvModel *gAvPS = NULL;
+AvModel *gAvPT = NULL;
 
-ANNMavHModel *gAnnMavH = NULL;
-ANNMavPSModel *gAnnMavPS = NULL;
-ANNMavPTModel *gAnnMavPT = NULL;
-ANNProbModel *gAnnProb = NULL;
-ANNPSModel *gAnnPS = NULL;
-ANNPTModel *gAnnPT = NULL;
+ANNModel *gAnnMavH = NULL;
+ANNModel *gAnnMavPS = NULL;
+ANNModel *gAnnMavPT = NULL;
+ANNModel *gAnnProb = NULL;
+ANNModel *gAnnPS = NULL;
+ANNModel *gAnnPT = NULL;
 
 extern "C" {
 /***********************************************************************

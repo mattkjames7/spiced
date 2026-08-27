@@ -1,4 +1,7 @@
 #include "mavtrans.h"
+#include "mavlambda_params.h"
+
+#include <algorithm>
 
 /***********************************************************************
  * NAME : MavTrans()
@@ -20,8 +23,8 @@ MavTrans::MavTrans() {
 MavTrans::~MavTrans() {
 	/* delete arrays*/
 	
-	delete ps_;
-	delete pt_;
+	delete[] ps_;
+	delete[] pt_;
 }
 
 /***********************************************************************
@@ -31,24 +34,14 @@ MavTrans::~MavTrans() {
  * 
  * ********************************************************************/
 void MavTrans::ReadCoefficients() {
-	/* get a copy of the memory pointer*/
-	unsigned char *p = &_binary_mavlambda_bin_start;
-
-	/*read in the PS first */
-	p = ann::readArray(p,&ps_,&nps_);
-
-	/*now read in the PT model */
-	p = ann::readArray(p,&pt_,&npt_);
-
-	/* reverse the elements of each array */
-	int i,j;
-	reverseArray(nps_,ps_);
-	reverseArray(npt_,pt_);
-	
-	/*adjust nps_ and npt_ such that they represent the degree of the
-	 * polynomials, rather than the number of coefficients */
-	nps_--;
-	npt_--;
+	/* The generated header already stores coefficients in the ascending
+	 * order expected by polynomial(). */
+	nps_ = static_cast<int>(mavlambda.ps.size()) - 1;
+	npt_ = static_cast<int>(mavlambda.pt.size()) - 1;
+	ps_ = new double[nps_ + 1];
+	pt_ = new double[npt_ + 1];
+	std::copy(mavlambda.ps.begin(), mavlambda.ps.end(), ps_);
+	std::copy(mavlambda.pt.begin(), mavlambda.pt.end(), pt_);
 	
 	
 }
@@ -186,5 +179,4 @@ void MavTrans::PTRevTransform(int n, float *r, float *mt, float *m) {
 	}
 	delete lambda;
 }	
-
 

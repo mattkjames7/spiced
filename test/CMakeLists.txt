@@ -40,7 +40,6 @@ find_package(OpenMP REQUIRED)
 
 # Link against spiced library, libann, and gtest
 target_link_libraries(run_tests PRIVATE
-    spiced_embedded_data
     spiced
     ann
     gtest
@@ -67,4 +66,3 @@ elseif(UNIX AND NOT APPLE)
         INSTALL_RPATH "$ORIGIN/../lib"
     )
 endif()
-

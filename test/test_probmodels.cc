@@ -25,7 +25,7 @@ protected:
 };
 
 TEST_F(ProbModelsTest, AverageProbModel) {
-    AvProbModel av;
+    AvModel av(AvModelType::Prob);
     
     av.Model(n, M.data(), R.data(), true, false, true, 1, 3, out.data());
     
@@ -41,7 +41,7 @@ TEST_F(ProbModelsTest, AverageProbModel) {
 }
 
 TEST_F(ProbModelsTest, ANNProbModel) {
-    ANNProbModel ann;
+    ANNModel ann(ANNModelType::Prob);
     
     ann.Model(n, M.data(), R.data(), SMR.data(), true, false, true, 1, 3, out.data());
     

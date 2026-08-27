@@ -10,42 +10,42 @@
 void initModels() {
 	/* check if the average models are loaded */
 	if (gAvMavH == NULL) {
-		gAvMavH = new AvMavHModel();
+		gAvMavH = new AvModel(AvModelType::MavH);
 	}
 	if (gAvMavPS == NULL) {
-		gAvMavPS = new AvMavPSModel();
+		gAvMavPS = new AvModel(AvModelType::MavPS);
 	}
 	if (gAvMavPT == NULL) {
-		gAvMavPT = new AvMavPTModel();
+		gAvMavPT = new AvModel(AvModelType::MavPT);
 	}
 	if (gAvProb == NULL) {
-		gAvProb = new AvProbModel();
+		gAvProb = new AvModel(AvModelType::Prob);
 	}
 	if (gAvPS == NULL) {
-		gAvPS = new AvPSModel();
+		gAvPS = new AvModel(AvModelType::PS);
 	}
 	if (gAvPT == NULL) {
-		gAvPT = new AvPTModel();
+		gAvPT = new AvModel(AvModelType::PT);
 	}
 	
 	/* check if the ANN models are loaded */
 	if (gAnnMavH == NULL) {
-		gAnnMavH = new ANNMavHModel();
+		gAnnMavH = new ANNModel(ANNModelType::MavH);
 	}
 	if (gAnnMavPS == NULL) {
-		gAnnMavPS = new ANNMavPSModel();
+		gAnnMavPS = new ANNModel(ANNModelType::MavPS);
 	}
 	if (gAnnMavPT == NULL) {
-		gAnnMavPT = new ANNMavPTModel();
+		gAnnMavPT = new ANNModel(ANNModelType::MavPT);
 	}
 	if (gAnnProb == NULL) {
-		gAnnProb = new ANNProbModel();
+		gAnnProb = new ANNModel(ANNModelType::Prob);
 	}
 	if (gAnnPS == NULL) {
-		gAnnPS = new ANNPSModel();
+		gAnnPS = new ANNModel(ANNModelType::PS);
 	}
 	if (gAnnPT == NULL) {
-		gAnnPT = new ANNPTModel();
+		gAnnPT = new ANNModel(ANNModelType::PT);
 	}
 	
 }

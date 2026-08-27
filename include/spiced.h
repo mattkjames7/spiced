@@ -1125,394 +1125,47 @@ void reverseArray(int n, float *x);
 void reverseArray(int n, double *x);
 
 
-/***********************************************************************
- * NAME : 	class ANNModel
- * 
- * DESCRIPTION : This is the basic model class object for storing the 
- * 				ANN object and obtaining the model parameters. This 
- * 				class should not be used directly, it should be 
- * 				inherited by one of the other model classes.
- * 
- * 
- * ********************************************************************/
+enum class ANNModelType { MavH, MavPS, MavPT, Prob, PS, PT };
+
 class ANNModel {
-	public:
-		/* This ann will provide the components of the model */
-		ann::NetworkFunc *ann_;
-		
-		/* Load the neural network */
-		void LoadANN(const ANNModelParams &);
-		
-		/* calculate the model components */
-		/* Calculate the model components */
-		void ModelComponents(int,float*,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float*,float**);
-
-		/* Cartesian to MLT and R */
-		void CartMLTR(int,float*,float*,float*,float*);
-		
-		/* we need to know the number of m-numbers */
-		int nm_, *m_;
-		
-		/* frequencies */
-		float *wl_;
-};
-
-/***********************************************************************
- * NAME : 	class ANNMavHModel
- * 
- * DESCRIPTION : This class object is based upon the ANNModel object and
- * 				will store the average ion mass neural network. Its 
- * 				member functions can be used to access the model.
- * 
- * 				NOTE - this is for hot ions!!!
- * 
- * ********************************************************************/
-class ANNMavHModel: public ANNModel {
-	public:
-		/* constructor for the model object */
-		ANNMavHModel();
-		
-		/* destructor for the model object */
-		~ANNMavHModel();
-		
-		/* the full model - this ought to be used by default */
-		void Model(int,float*,float*,float*,bool,bool,bool,int,int,float*);
-		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,float*);	
-};
-
-/***********************************************************************
- * NAME : 	class ANNMavPSModel
- * 
- * DESCRIPTION : This class object is based upon the ANNModel object and
- * 				will store the average ion mass neural network. Its 
- * 				member functions can be used to access the model.
- * 
- * 				This is the cold ion plasmsphere model!
- * 
- * ********************************************************************/
-class ANNMavPSModel: public ANNModel {
-	public:
-		/* constructor for the model object */
-		ANNMavPSModel();
-		
-		/* destructor for the model object */
-		~ANNMavPSModel();
-		
-		/* the full model - this ought to be used by default */
-		void Model(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);	
-
-	private:
-		MavTrans *MT_;
-};
-
-
-/***********************************************************************
- * NAME : 	class ANNMavPTModel
- * 
- * DESCRIPTION : This class object is based upon the ANNModel object and
- * 				will store the average ion mass neural network. Its 
- * 				member functions can be used to access the model.
- * 
- * 				This is the cold ion plasmsphere model!
- * 
- * ********************************************************************/
-class ANNMavPTModel: public ANNModel {
-	public:
-		/* constructor for the model object */
-		ANNMavPTModel();
-		
-		/* destructor for the model object */
-		~ANNMavPTModel();
-		
-		/* the full model - this ought to be used by default */
-		void Model(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);	
-
-	private:
-		MavTrans *MT_;
-};
-
-/***********************************************************************
- * NAME : 	class ANNProbModel
- * 
- * DESCRIPTION : This class object is based upon the ANNModel object and
- * 				will store the probability model neural network. Its 
- * 				member functions can be used to access the model.
- * 
- * ********************************************************************/
-class ANNProbModel: public ANNModel {
-	public:
-		/* constructor for the model object */
-		ANNProbModel();
-		
-		/* destructor for the model object */
-		~ANNProbModel();
-		
-		/* the full model - this ought to be used by default */
-		void Model(int,float*,float*,float*,bool,bool,bool,int,int,float*);
-		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,float*);	
-};
-
-/***********************************************************************
- * NAME : 	class ANNPSModel
- * 
- * DESCRIPTION : This class object is based upon the ANNModel object and
- * 				will store the plasmasphere model neural network. Its 
- * 				member functions can be used to access the model.
- * 
- * ********************************************************************/
-class ANNPSModel: public ANNModel {
-	public:
-		/* constructor for the model object */
-		ANNPSModel();
-		
-		/* destructor for the model object */
-		~ANNPSModel();
-		
-		/* the full model - this ought to be used by default */
-		void Model(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);	
-};
-
-/***********************************************************************
- * NAME : 	class ANNPTModel
- * 
- * DESCRIPTION : This class object is based upon the ANNModel object and
- * 				will store the plasma trough model neural network. Its 
- * 				member functions can be used to access the model.
- * 
- * ********************************************************************/
-class ANNPTModel: public ANNModel {
-	public:
-		/* constructor for the model object */
-		ANNPTModel();
-		
-		/* destructor for the model object */
-		~ANNPTModel();
-		
-		/* the full model - this ought to be used by default */
-		void Model(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);	
+public:
+	explicit ANNModel(ANNModelType);
+	~ANNModel();
+	ANNModel(const ANNModel &) = delete;
+	ANNModel &operator=(const ANNModel &) = delete;
+	void Model(int,float*,float*,float*,bool,bool,bool,int,int,float*);
+	void Model(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);
+	void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,float*);
+	void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);
+	void ModelComponents(int,float*,float*,float*,float*,float**);
+	void ModelComponentsCart(int,float*,float*,float*,float*,float**);
+	ann::NetworkFunc *ann_;
+private:
+	struct Impl;
+	Impl *impl_;
 };
 
 
 
 
-/***********************************************************************
- * NAME : 	class AvModel
- * 
- * DESCRIPTION : This is hte basic model class object for storing the
- * 				average model parameters. This class should not be used
- * 				directly, it should be inherited by one of the other 
- * 				model classes.
- * 
- * 
- * ********************************************************************/
+enum class AvModelType { MavH, MavPS, MavPT, Prob, PS, PT };
+
 class AvModel {
-	public:
-		/* these pointers will be used to store the model variables */
-		int ndc_, Rshape_[2], Ishape_[2];
-		float *dc_, **R_, **I_;
-		
-		/* this is for storing the number of m-numbers */
-		int nm_;
-		int *m_;
-		float *wl_;
-		
-		/* read in the model variables */
-		void ReadModelParams(const ModelParams &);
-		
-		/* calculate the model components */
-		void PeriodicComponents(int,float*,float*,float**);
-		
-		/* Cartesian to MLT and R */
-		void CartMLTR(int,float*,float*,float*,float*);
-};
-
-
-
-
-/***********************************************************************
- * NAME : 	class AvMavHModel
- * 
- * DESCRIPTION : This class object is based upon the AvModel object and
- * 				will store the average ion mass model parameters. Its 
- * 				member functions can be used to access the model.
- * 
- * 				NOTE - this is the hot average ion mass model - it bares
- * 				little resemblance to the cold composition.
- * 
- * ********************************************************************/
-class AvMavHModel: public AvModel {
-	public:
-		/* model constructor */
-		AvMavHModel();
-		
-		/* model destructor */
-		~AvMavHModel();
-		
-		/* DC function */
-		void DC(int,float*,float*);
-		
-		/* Calculate the model separate components */
-		void ModelComponents(int,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float**);
-		
-		/* The full model - use this by default */
-		void Model(int,float*,float*,bool,bool,bool,int,int,float*);
-		void ModelCart(int,float*,float*,bool,bool,bool,int,int,float*);
-};
-
-
-/***********************************************************************
- * NAME : 	class AvMavPSModel
- * 
- * DESCRIPTION : This class object is based upon the AvModel object and
- * 				will store the average ion mass model parameters. Its 
- * 				member functions can be used to access the model.
- * 
- * 				NOTE - this is the cold ion model.
- * 
- * ********************************************************************/
-class AvMavPSModel: public AvModel {
-	public:
-		/* model constructor */
-		AvMavPSModel();
-		
-		/* model destructor */
-		~AvMavPSModel();
-		
-		/* DC function */
-		void DC(int,float*,float*);
-		
-		/* Calculate the model separate components */
-		void ModelComponents(int,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float**);
-		
-		/* The full model - use this by default */
-		void Model(int,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,bool,bool,bool,int,int,bool,float*);
-	private:
-		MavTrans *MT_;
-};
-
-/***********************************************************************
- * NAME : 	class AvMavPTModel
- * 
- * DESCRIPTION : This class object is based upon the AvModel object and
- * 				will store the average ion mass model parameters. Its 
- * 				member functions can be used to access the model.
- * 
- * 				NOTE - this is the cold ion model.
- * 
- * ********************************************************************/
-class AvMavPTModel: public AvModel {
-	public:
-		/* model constructor */
-		AvMavPTModel();
-		
-		/* model destructor */
-		~AvMavPTModel();
-		
-		/* DC function */
-		void DC(int,float*,float*);
-		
-		/* Calculate the model separate components */
-		void ModelComponents(int,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float**);
-		
-		/* The full model - use this by default */
-		void Model(int,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,bool,bool,bool,int,int,bool,float*);
-	private:
-		MavTrans *MT_;
-};
-
-
-/***********************************************************************
- * NAME : 	class AvProbModel
- * 
- * DESCRIPTION : This class object is based upon the AvModel object and
- * 				will store the average probability model parameters. Its 
- * 				member functions can be used to access the model.
- * 
- * ********************************************************************/
-class AvProbModel: public AvModel {
-	public:
-		/* model constructor */
-		AvProbModel();
-		
-		/* model destructor */
-		~AvProbModel();
-		
-		/* DC function */
-		void DC(int,float*,float*);
-		
-		/* Calculate the model separate components */
-		void ModelComponents(int,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float**);
-		
-		/* The full model - use this by default */
-		void Model(int,float*,float*,bool,bool,bool,int,int,float*);
-		void ModelCart(int,float*,float*,bool,bool,bool,int,int,float*);
-};
-
-/***********************************************************************
- * NAME : 	class AvPSModel
- * 
- * DESCRIPTION : This class object is based upon the AvModel object and
- * 				will store the plasmasphere density model parameters. 
- * 				Its member functions can be used to access the model.
- * 
- * ********************************************************************/
-class AvPSModel: public AvModel {
-	public:
-		/* model constructor */
-		AvPSModel();
-		
-		/* model destructor */
-		~AvPSModel();
-		
-		/* DC function */
-		void DC(int,float*,float*);
-		
-		/* Calculate the model separate components */
-		void ModelComponents(int,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float**);
-		
-		/* The full model - use this by default */
-		void Model(int,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,bool,bool,bool,int,int,bool,float*);
-};
-
-/***********************************************************************
- * NAME : 	class AvPTModel
- * 
- * DESCRIPTION : This class object is based upon the AvModel object and
- * 				will store the plasma trough density model parameters. 
- * 				Its member functions can be used to access the model.
- * 
- * ********************************************************************/
-class AvPTModel: public AvModel {
-	public:
-		/* model constructor */
-		AvPTModel();
-		
-		/* model destructor */
-		~AvPTModel();
-		
-		/* DC function */
-		void DC(int,float*,float*);
-		
-		/* Calculate the model separate components */
-		void ModelComponents(int,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float**);
-		
-		/* The full model - use this by default */
-		void Model(int,float*,float*,bool,bool,bool,int,int,bool,float*);
-		void ModelCart(int,float*,float*,bool,bool,bool,int,int,bool,float*);
+public:
+	explicit AvModel(AvModelType);
+	~AvModel();
+	AvModel(const AvModel &) = delete;
+	AvModel &operator=(const AvModel &) = delete;
+	void DC(int,float*,float*);
+	void Model(int,float*,float*,bool,bool,bool,int,int,float*);
+	void Model(int,float*,float*,bool,bool,bool,int,int,bool,float*);
+	void ModelCart(int,float*,float*,bool,bool,bool,int,int,float*);
+	void ModelCart(int,float*,float*,bool,bool,bool,int,int,bool,float*);
+	void ModelComponents(int,float*,float*,float*,float**);
+	void ModelComponentsCart(int,float*,float*,float*,float**);
+private:
+	struct Impl;
+	Impl *impl_;
 };
 
 #endif

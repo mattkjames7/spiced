@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "polynomial.h"
-#include "reversearray.h"
-#include <ann.h>
-extern unsigned char _binary_mavlambda_bin_start;
 
 /***********************************************************************
  * NAME : 	class MavTrans
@@ -36,5 +33,4 @@ class MavTrans {
 };
 
 #endif
-
 
