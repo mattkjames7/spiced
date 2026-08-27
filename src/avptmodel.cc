@@ -11,11 +11,12 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-AvPTModel::AvPTModel(unsigned char *ptr) {
+AvPTModel::AvPTModel() {
 	
 	/* all we need to do is initialize the object by reading in the 
 	 * model parameters from the provided memory address */
-	ReadModelParams(ptr);
+	ReadModelParams(pt);
+	reverseArray(ndc_, dc_);
 	
 	/* reverse the elements of the DC polynomial */
 	reverseArray(ndc_,dc_);
@@ -189,8 +190,8 @@ void AvPTModel::Model(int n, float *mlt, float *R,
 	float shift = 0.0;
 	float lambda = 0.06542969;
 	if (RevTrans) {
-		ReverseBoxCox(n,out,lambda,shift,0.0,1.0,out);
-		ReverseBoxCox(n,dc,lambda,shift,0.0,1.0,dc);
+		ann::ReverseBoxCox(n,out,lambda,shift,0.0,1.0,out);
+		ann::ReverseBoxCox(n,dc,lambda,shift,0.0,1.0,dc);
 	}
 	
 	/* remove the DC component if we need to */

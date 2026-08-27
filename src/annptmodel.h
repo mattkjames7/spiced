@@ -16,7 +16,7 @@
 class ANNPTModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNPTModel(unsigned char *);
+		ANNPTModel();
 		
 		/* destructor for the model object */
 		~ANNPTModel();
@@ -26,4 +26,3 @@ class ANNPTModel: public ANNModel {
 		void ModelCart(int,float*,float*,float*,bool,bool,bool,int,int,bool,float*);	
 };
 #endif
-

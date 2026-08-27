@@ -22,7 +22,21 @@
 *.a
 *.lib
 
+# CMake build trees
+build/
+CMakeFiles/
+CMakeCache.txt
+Testing/
+cmake_install.cmake
+CTestTestfile.cmake
+
 # Executables
 *.exe
 *.out
 *.app
+
+# External dependencies
+external/
+
+# OS-generated files
+.DS_Store

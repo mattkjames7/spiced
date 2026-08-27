@@ -35,10 +35,10 @@ void MavTrans::ReadCoefficients() {
 	unsigned char *p = &_binary_mavlambda_bin_start;
 
 	/*read in the PS first */
-	p = readArray(p,&ps_,&nps_);
+	p = ann::readArray(p,&ps_,&nps_);
 
 	/*now read in the PT model */
-	p = readArray(p,&pt_,&npt_);
+	p = ann::readArray(p,&pt_,&npt_);
 
 	/* reverse the elements of each array */
 	int i,j;

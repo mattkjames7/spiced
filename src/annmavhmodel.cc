@@ -11,11 +11,11 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-ANNMavHModel::ANNMavHModel(unsigned char *ptr) {
+ANNMavHModel::ANNMavHModel() {
 	
 	/* I think that we just need to read the model in and load the
 	 * ANNModel object */
-	LoadANN(ptr);
+	LoadANN(mavhann);
 	
 	
 }
@@ -182,7 +182,6 @@ void ANNMavHModel::Model(int n, float *mlt, float *R, float *f107,
 	delete [] f107s;
 		
 }
-
 
 
 

@@ -10,10 +10,34 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-void ANNModel::LoadANN(unsigned char *ptr) {
+void ANNModel::LoadANN(const ANNModelParams &params) {
 
 	/* create the NetworkFunc object */
-	ann_ = new NetworkFunc(ptr,"softplus","linear","mean_squared");
+	std::vector<int> layers(params.layers.begin(), params.layers.end());
+	ann_ = new ann::NetworkFunc(
+		static_cast<int>(layers.size()), layers.data(),
+		"softplus", "linear", "mean_squared");
+
+	for (size_t i = 0; i < params.scale0.size(); ++i) {
+		ann_->scale0_[i] = params.scale0[i];
+		ann_->scale1_[i] = params.scale1[i];
+	}
+	for (size_t layer = 0; layer < params.weights.size(); ++layer) {
+		for (size_t row = 0; row < params.weights[layer].size(); ++row) {
+			for (size_t column = 0; column < params.weights[layer][row].size(); ++column) {
+				ann_->W_->matrix[layer]->data[row][column] =
+					params.weights[layer][row][column];
+			}
+		}
+	}
+	for (size_t layer = 0; layer < params.biases.size(); ++layer) {
+		for (size_t row = 0; row < params.biases[layer].size(); ++row) {
+			for (size_t column = 0; column < params.biases[layer][row].size(); ++column) {
+				ann_->B_->matrix[layer]->data[row][column] =
+					params.biases[layer][row][column];
+			}
+		}
+	}
 	
 	/* use the ann_ class to work out the maximum m number */
 	nm_ = (ann_->s_[ann_->L_-1] - 1)/2;

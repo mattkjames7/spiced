@@ -19,7 +19,7 @@
 class AvPTModel: public AvModel {
 	public:
 		/* model constructor */
-		AvPTModel(unsigned char *);
+		AvPTModel();
 		
 		/* model destructor */
 		~AvPTModel();

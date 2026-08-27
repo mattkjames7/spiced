@@ -8,6 +8,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "reversearray.h"
+#include "model_params.h"
 
 
 /***********************************************************************
@@ -32,7 +33,7 @@ class AvModel {
 		float *wl_;
 		
 		/* read in the model variables */
-		void ReadModelParams(unsigned char *);
+		void ReadModelParams(const ModelParams &);
 		
 		/* calculate the model components */
 		void PeriodicComponents(int,float*,float*,float**);

@@ -6,6 +6,7 @@
 #include <math.h>
 #include <ann.h>
 #include "rescale.h"
+#include "ann_model_params.h"
 
 /***********************************************************************
  * NAME : 	class ANNModel
@@ -20,10 +21,10 @@
 class ANNModel {
 	public:
 		/* This ann will provide the components of the model */
-		NetworkFunc *ann_;
+		ann::NetworkFunc *ann_;
 		
 		/* Load the neural network */
-		void LoadANN(unsigned char *);
+		void LoadANN(const ANNModelParams &);
 		
 		/* calculate the model components */
 		/* Calculate the model components */

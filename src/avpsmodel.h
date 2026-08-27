@@ -19,7 +19,7 @@
 class AvPSModel: public AvModel {
 	public:
 		/* model constructor */
-		AvPSModel(unsigned char *);
+		AvPSModel();
 		
 		/* model destructor */
 		~AvPSModel();
@@ -36,4 +36,3 @@ class AvPSModel: public AvModel {
 		void ModelCart(int,float*,float*,bool,bool,bool,int,int,bool,float*);
 };
 #endif
-

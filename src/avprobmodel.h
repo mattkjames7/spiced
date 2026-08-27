@@ -16,7 +16,7 @@
 class AvProbModel: public AvModel {
 	public:
 		/* model constructor */
-		AvProbModel(unsigned char *);
+		AvProbModel();
 		
 		/* model destructor */
 		~AvProbModel();
@@ -34,4 +34,3 @@ class AvProbModel: public AvModel {
 };
 
 #endif
-

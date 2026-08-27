@@ -10,11 +10,11 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-ANNMavPTModel::ANNMavPTModel(unsigned char *ptr) {
+ANNMavPTModel::ANNMavPTModel() {
 	
 	/* I think that we just need to read the model in and load the
 	 * ANNModel object */
-	LoadANN(ptr);
+	LoadANN(mavcptann);
 	
 	
 	/* Finally store an object which can transform the mav values*/
@@ -191,7 +191,6 @@ void ANNMavPTModel::Model(int n, float *mlt, float *R, float *smr,
 	delete [] smrs;
 		
 }
-
 
 
 

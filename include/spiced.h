@@ -4,22 +4,9 @@
 #include <stdlib.h>
 #include <ann.h>
 
+struct ModelParams;
+struct ANNModelParams;
 
-/* these are the memory addresses for the average model parameters */
-extern unsigned char _binary_mavh_bin_start;
-extern unsigned char _binary_mavcps_bin_start;
-extern unsigned char _binary_mavcpt_bin_start;
-extern unsigned char _binary_prob_bin_start;
-extern unsigned char _binary_ps_bin_start;
-extern unsigned char _binary_pt_bin_start;
-
-/* these are the memory addresses for the ANN model parameters */
-extern unsigned char _binary_mavhann_bin_start;
-extern unsigned char _binary_mavcpsann_bin_start;
-extern unsigned char _binary_mavcptann_bin_start;
-extern unsigned char _binary_probann_bin_start;
-extern unsigned char _binary_psann_bin_start;
-extern unsigned char _binary_ptann_bin_start;
 
 
 
@@ -1151,10 +1138,10 @@ void reverseArray(int n, double *x);
 class ANNModel {
 	public:
 		/* This ann will provide the components of the model */
-		NetworkFunc *ann_;
+		ann::NetworkFunc *ann_;
 		
 		/* Load the neural network */
-		void LoadANN(unsigned char *);
+		void LoadANN(const ANNModelParams &);
 		
 		/* calculate the model components */
 		/* Calculate the model components */
@@ -1184,7 +1171,7 @@ class ANNModel {
 class ANNMavHModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNMavHModel(unsigned char *);
+		ANNMavHModel();
 		
 		/* destructor for the model object */
 		~ANNMavHModel();
@@ -1207,7 +1194,7 @@ class ANNMavHModel: public ANNModel {
 class ANNMavPSModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNMavPSModel(unsigned char *);
+		ANNMavPSModel();
 		
 		/* destructor for the model object */
 		~ANNMavPSModel();
@@ -1234,7 +1221,7 @@ class ANNMavPSModel: public ANNModel {
 class ANNMavPTModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNMavPTModel(unsigned char *);
+		ANNMavPTModel();
 		
 		/* destructor for the model object */
 		~ANNMavPTModel();
@@ -1258,7 +1245,7 @@ class ANNMavPTModel: public ANNModel {
 class ANNProbModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNProbModel(unsigned char *);
+		ANNProbModel();
 		
 		/* destructor for the model object */
 		~ANNProbModel();
@@ -1279,7 +1266,7 @@ class ANNProbModel: public ANNModel {
 class ANNPSModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNPSModel(unsigned char *);
+		ANNPSModel();
 		
 		/* destructor for the model object */
 		~ANNPSModel();
@@ -1300,7 +1287,7 @@ class ANNPSModel: public ANNModel {
 class ANNPTModel: public ANNModel {
 	public:
 		/* constructor for the model object */
-		ANNPTModel(unsigned char *);
+		ANNPTModel();
 		
 		/* destructor for the model object */
 		~ANNPTModel();
@@ -1335,7 +1322,7 @@ class AvModel {
 		float *wl_;
 		
 		/* read in the model variables */
-		void ReadModelParams(unsigned char *);
+		void ReadModelParams(const ModelParams &);
 		
 		/* calculate the model components */
 		void PeriodicComponents(int,float*,float*,float**);
@@ -1361,7 +1348,7 @@ class AvModel {
 class AvMavHModel: public AvModel {
 	public:
 		/* model constructor */
-		AvMavHModel(unsigned char *);
+		AvMavHModel();
 		
 		/* model destructor */
 		~AvMavHModel();
@@ -1392,7 +1379,7 @@ class AvMavHModel: public AvModel {
 class AvMavPSModel: public AvModel {
 	public:
 		/* model constructor */
-		AvMavPSModel(unsigned char *);
+		AvMavPSModel();
 		
 		/* model destructor */
 		~AvMavPSModel();
@@ -1424,7 +1411,7 @@ class AvMavPSModel: public AvModel {
 class AvMavPTModel: public AvModel {
 	public:
 		/* model constructor */
-		AvMavPTModel(unsigned char *);
+		AvMavPTModel();
 		
 		/* model destructor */
 		~AvMavPTModel();
@@ -1455,7 +1442,7 @@ class AvMavPTModel: public AvModel {
 class AvProbModel: public AvModel {
 	public:
 		/* model constructor */
-		AvProbModel(unsigned char *);
+		AvProbModel();
 		
 		/* model destructor */
 		~AvProbModel();
@@ -1483,7 +1470,7 @@ class AvProbModel: public AvModel {
 class AvPSModel: public AvModel {
 	public:
 		/* model constructor */
-		AvPSModel(unsigned char *);
+		AvPSModel();
 		
 		/* model destructor */
 		~AvPSModel();
@@ -1511,7 +1498,7 @@ class AvPSModel: public AvModel {
 class AvPTModel: public AvModel {
 	public:
 		/* model constructor */
-		AvPTModel(unsigned char *);
+		AvPTModel();
 		
 		/* model destructor */
 		~AvPTModel();
