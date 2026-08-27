@@ -47,6 +47,18 @@ target_link_libraries(spiced_tests PRIVATE
     OpenMP::OpenMP_CXX
 )
 
+# Windows has no build-tree RPATH. Put the shared libraries beside the test
+# executable so both post-build discovery and the later CTest run can load them.
+if(WIN32)
+    add_custom_command(TARGET spiced_tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:spiced>
+            $<TARGET_FILE:ann>
+            $<TARGET_FILE_DIR:spiced_tests>
+        COMMAND_EXPAND_LISTS
+    )
+endif()
+
 # Discover and add individual tests to CTest
 gtest_discover_tests(
     spiced_tests
