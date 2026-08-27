@@ -78,12 +78,8 @@ The build automatically fetches:
 ## Binary Data Files
 
 Legacy model binaries and their conversion scripts are retained in `legacy/`.
-The model parameters used at runtime have been converted to C++ headers, except
-for `mavlambda.bin`, which is still embedded by the build:
-- macOS: Uses `xxd` to convert binaries to C++ source files
-- Linux: Uses `ld -r -b binary` to create linkable object files
-
-This remaining binary is automatically handled by the CMake build system.
+All model parameters used at runtime are compiled from generated C++ headers;
+the legacy binary files are no longer embedded by the build.
 
 ## Platform-Specific Notes
 
