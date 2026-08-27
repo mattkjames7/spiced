@@ -18,9 +18,18 @@ FetchContent_Declare(
     libann
     GIT_REPOSITORY https://github.com/mattkjames7/libann
     GIT_TAG v0.1.0
+    PATCH_COMMAND git apply --ignore-space-change
+                  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/libann-msvc.patch"
 )
 
 FetchContent_MakeAvailable(libann)
+
+# Both libraries are consumed as DLLs in the MSVC build. They do not currently
+# carry explicit __declspec(dllexport) annotations, so ask CMake to generate
+# exports for their externally visible symbols.
+if(WIN32)
+    set_target_properties(ann PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
 if(APPLE)
     set(_spiced_install_rpath "@loader_path")
