@@ -13,6 +13,10 @@ set(SPICED_SOURCES
 add_library(spiced SHARED ${SPICED_SOURCES})
 add_library(spiced::spiced ALIAS spiced)
 
+if(WIN32)
+    set_target_properties(spiced PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
 # Set include directories
 target_include_directories(spiced PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
@@ -24,23 +28,26 @@ target_include_directories(spiced PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
-# Link libann
-target_link_libraries(spiced PRIVATE
-    $<BUILD_INTERFACE:ann>
-)
+# spiced.h exposes libann types, so consumers need libann's usage requirements
+# (including the OpenMP headers and compiler flags).
+target_link_libraries(spiced PUBLIC ann)
 
-# Compiler flags
-target_compile_options(spiced PRIVATE 
-    -Wextra
-    -O3
-)
+# Compiler warnings. Optimization is selected by the Release configuration.
+if(MSVC)
+    target_compile_options(spiced PRIVATE /W4)
+else()
+    target_compile_options(spiced PRIVATE -Wextra)
+endif()
 
 # Add OpenMP support
 find_package(OpenMP REQUIRED)
 target_link_libraries(spiced PRIVATE OpenMP::OpenMP_CXX)
 
-# Link math library
-target_link_libraries(spiced PRIVATE m)
+# Unix exposes the C math functions through libm; MSVC provides them directly
+# through its runtime library.
+if(UNIX)
+    target_link_libraries(spiced PRIVATE m)
+endif()
 
 # Set library properties
 set_target_properties(spiced PROPERTIES

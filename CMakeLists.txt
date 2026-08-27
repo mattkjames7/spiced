@@ -17,7 +17,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 FetchContent_Declare(
     libann
     GIT_REPOSITORY https://github.com/mattkjames7/libann
-    GIT_TAG v0.1.0
+    GIT_TAG v0.1.1
 )
 
 FetchContent_MakeAvailable(libann)

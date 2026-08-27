@@ -47,7 +47,7 @@ void polynomial(int nd, float *coef, int n, float *x, float *y) {
 	for (i=0;i<n;i++) {
 		y[i] = coef[0] + coef[1]*x[i];
 		for (j=1;j<nd;j++) {
-			y[i] += coef[j+1]*powf(x[i],j+1);
+			y[i] += coef[j+1]*powf(x[i],static_cast<float>(j+1));
 		}
 	}
 	

@@ -1,11 +1,32 @@
 name: CI
 
 on:
-  push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      ubuntu_x86_64:
+        description: Build and test on Ubuntu x86_64
+        type: boolean
+        default: true
+      ubuntu_arm64:
+        description: Build and test on Ubuntu ARM64
+        type: boolean
+        default: false
+      macos:
+        description: Build and test on macOS
+        type: boolean
+        default: false
+      windows_msvc:
+        description: Build and test on Windows with MSVC
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
 
 jobs:
-  build-and-test:
+  ubuntu-x86_64:
+    if: github.event_name == 'pull_request' || inputs.ubuntu_x86_64
     runs-on: ubuntu-latest
 
     steps:
@@ -13,25 +34,117 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Configure project
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -GNinja
 
       - name: Build project
-        run: cmake --build build --parallel
+        run: cmake --build build
 
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
 
+      - name: Test installed package
+        shell: bash
+        run: |
+          cmake --install build --prefix "$RUNNER_TEMP/spiced-install"
+          cmake -S examples/package-consumer \
+            -B examples/package-consumer/build \
+            -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/spiced-install"
+          cmake --build examples/package-consumer/build
+          ./examples/package-consumer/build/spiced_package_example
+
+  ubuntu-arm64:
+    if: github.event_name == 'pull_request' || inputs.ubuntu_arm64
+    runs-on: ubuntu-24.04-arm
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Configure project
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -GNinja
+
+      - name: Build project
+        run: cmake --build build
+
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Test installed package
+        shell: bash
+        run: |
+          cmake --install build --prefix "$RUNNER_TEMP/spiced-install"
+          cmake -S examples/package-consumer \
+            -B examples/package-consumer/build \
+            -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/spiced-install"
+          cmake --build examples/package-consumer/build
+          ./examples/package-consumer/build/spiced_package_example
+
+  macos:
+    if: github.event_name == 'pull_request' || inputs.macos
+    runs-on: macos-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install build dependencies
+        run: brew install libomp ninja
+
+      - name: Configure project
+        run: >-
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Release
+          -DOpenMP_ROOT="$(brew --prefix libomp)"
+          -GNinja
+
+      - name: Build project
+        run: cmake --build build
+
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Test installed package
+        shell: bash
+        run: |
+          cmake --install build --prefix "$RUNNER_TEMP/spiced-install"
+          cmake -S examples/package-consumer \
+            -B examples/package-consumer/build \
+            -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/spiced-install" \
+            -DOpenMP_ROOT="$(brew --prefix libomp)"
+          cmake --build examples/package-consumer/build
+          ./examples/package-consumer/build/spiced_package_example
+
+  windows-msvc:
+    if: github.event_name == 'pull_request' || inputs.windows_msvc
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Configure project
+        run: cmake -S . -B build -A x64
+
+      - name: Build project
+        run: cmake --build build --config Release
+
+      - name: Run tests
+        run: ctest --test-dir build -C Release --output-on-failure
+
       - name: Install project
-        run: cmake --install build --prefix "$RUNNER_TEMP/spiced-install"
+        run: cmake --install build --config Release --prefix "$env:RUNNER_TEMP/spiced-install"
 
       - name: Configure package consumer example
         run: >-
           cmake -S examples/package-consumer
           -B examples/package-consumer/build
-          -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/spiced-install"
+          -A x64
+          -DCMAKE_PREFIX_PATH="$env:RUNNER_TEMP/spiced-install"
 
       - name: Build package consumer example
-        run: cmake --build examples/package-consumer/build --parallel
+        run: cmake --build examples/package-consumer/build --config Release
 
       - name: Run package consumer example
-        run: ./examples/package-consumer/build/spiced_package_example
+        run: |
+          $env:PATH = "$env:RUNNER_TEMP/spiced-install/bin;$env:PATH"
+          ./examples/package-consumer/build/Release/spiced_package_example.exe
