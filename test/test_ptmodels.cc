@@ -25,7 +25,7 @@ protected:
 };
 
 TEST_F(PTModelsTest, AveragePTModel) {
-    AvPTModel av;
+    AvModel av(AvModelType::PT);
     
     av.Model(n, M.data(), R.data(), true, false, true, 1, 3, true, out.data());
     

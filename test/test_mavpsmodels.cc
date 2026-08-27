@@ -25,7 +25,7 @@ protected:
 };
 
 TEST_F(MavPSModelsTest, AverageMavPSModel) {
-    AvMavPSModel av;
+    AvModel av(AvModelType::MavPS);
     
     av.Model(n, M.data(), R.data(), true, false, true, 1, 3, true, out.data());
     

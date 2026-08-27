@@ -3,27 +3,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "avmavhmodel.h"
-#include "avmavpsmodel.h"
-#include "avmavptmodel.h"
+#include "avmodel.h"
 #include "annmavhmodel.h"
 #include "annmavpsmodel.h"
 #include "annmavptmodel.h"
-#include "avprobmodel.h"
 #include "annprobmodel.h"
-#include "avpsmodel.h"
 #include "annpsmodel.h"
-#include "avptmodel.h"
 #include "annptmodel.h"
 #endif
 
 /* this is where the models will be stored during runtime */
-AvMavHModel *gAvMavH = NULL;
-AvMavPSModel *gAvMavPS = NULL;
-AvMavPTModel *gAvMavPT = NULL;
-AvProbModel *gAvProb = NULL;
-AvPSModel *gAvPS = NULL;
-AvPTModel *gAvPT = NULL;
+AvModel *gAvMavH = NULL;
+AvModel *gAvMavPS = NULL;
+AvModel *gAvMavPT = NULL;
+AvModel *gAvProb = NULL;
+AvModel *gAvPS = NULL;
+AvModel *gAvPT = NULL;
 
 ANNMavHModel *gAnnMavH = NULL;
 ANNMavPSModel *gAnnMavPS = NULL;

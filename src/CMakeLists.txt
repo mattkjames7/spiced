@@ -8,12 +8,6 @@ set(SPICED_SOURCES
     annpsmodel.cc
     annptmodel.cc
     avmodel.cc
-    avpsmodel.cc
-    avptmodel.cc
-    avprobmodel.cc
-    avmavhmodel.cc
-    avmavpsmodel.cc
-    avmavptmodel.cc
     mavtrans.cc
     polynomial.cc
     rescale.cc

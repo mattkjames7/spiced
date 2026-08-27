@@ -10,22 +10,22 @@
 void initModels() {
 	/* check if the average models are loaded */
 	if (gAvMavH == NULL) {
-		gAvMavH = new AvMavHModel();
+		gAvMavH = new AvModel(AvModelType::MavH);
 	}
 	if (gAvMavPS == NULL) {
-		gAvMavPS = new AvMavPSModel();
+		gAvMavPS = new AvModel(AvModelType::MavPS);
 	}
 	if (gAvMavPT == NULL) {
-		gAvMavPT = new AvMavPTModel();
+		gAvMavPT = new AvModel(AvModelType::MavPT);
 	}
 	if (gAvProb == NULL) {
-		gAvProb = new AvProbModel();
+		gAvProb = new AvModel(AvModelType::Prob);
 	}
 	if (gAvPS == NULL) {
-		gAvPS = new AvPSModel();
+		gAvPS = new AvModel(AvModelType::PS);
 	}
 	if (gAvPT == NULL) {
-		gAvPT = new AvPTModel();
+		gAvPT = new AvModel(AvModelType::PT);
 	}
 	
 	/* check if the ANN models are loaded */

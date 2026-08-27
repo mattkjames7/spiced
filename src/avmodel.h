@@ -1,44 +1,37 @@
-#ifndef __AVMODEL_H__
-#define __AVMODEL_H__
-#include <stdio.h>
-#include <stdlib.h>
-#include <ann.h>
-#include <algorithm>
-#include "polynomial.h"
-#define _USE_MATH_DEFINES
-#include <cmath>
-#include "reversearray.h"
-#include "model_params.h"
+#pragma once
 
-
-/***********************************************************************
- * NAME : 	class AvModel
- * 
- * DESCRIPTION : This is hte basic model class object for storing the
- * 				average model parameters. This class should not be used
- * 				directly, it should be inherited by one of the other 
- * 				model classes.
- * 
- * 
- * ********************************************************************/
-class AvModel {
-	public:
-		/* these pointers will be used to store the model variables */
-		int ndc_, Rshape_[2], Ishape_[2];
-		float *dc_, **R_, **I_;
-		
-		/* this is for storing the number of m-numbers */
-		int nm_;
-		int *m_;
-		float *wl_;
-		
-		/* read in the model variables */
-		void ReadModelParams(const ModelParams &);
-		
-		/* calculate the model components */
-		void PeriodicComponents(int,float*,float*,float**);
-		
-		/* Cartesian to MLT and R */
-		void CartMLTR(int,float*,float*,float*,float*);
+enum class AvModelType {
+    MavH,
+    MavPS,
+    MavPT,
+    Prob,
+    PS,
+    PT,
 };
-#endif
+
+class AvModel {
+public:
+    explicit AvModel(AvModelType type);
+    ~AvModel();
+
+    AvModel(const AvModel &) = delete;
+    AvModel &operator=(const AvModel &) = delete;
+
+    void DC(int n, float *R, float *dc);
+    void Model(int n, float *mlt, float *R, bool show_dc, bool only_dc,
+               bool validate, int m0, int m1, float *out);
+    void Model(int n, float *mlt, float *R, bool show_dc, bool only_dc,
+               bool validate, int m0, int m1, bool reverse_transform,
+               float *out);
+    void ModelCart(int n, float *x, float *y, bool show_dc, bool only_dc,
+                   bool validate, int m0, int m1, float *out);
+    void ModelCart(int n, float *x, float *y, bool show_dc, bool only_dc,
+                   bool validate, int m0, int m1, bool reverse_transform,
+                   float *out);
+    void ModelComponents(int n, float *mlt, float *R, float *dc, float **periodic);
+    void ModelComponentsCart(int n, float *x, float *y, float *dc, float **periodic);
+
+private:
+    struct Impl;
+    Impl *impl_;
+};

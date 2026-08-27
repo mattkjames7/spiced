@@ -25,7 +25,7 @@ protected:
 };
 
 TEST_F(PSModelsTest, AveragePSModel) {
-    AvPSModel av;
+    AvModel av(AvModelType::PS);
     
     av.Model(n, M.data(), R.data(), true, false, true, 1, 3, true, out.data());
     
