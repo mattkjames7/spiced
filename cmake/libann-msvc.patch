@@ -47,3 +47,16 @@ index 8816ef8..29361ae 100644
  
  	return out;
  	
+diff --git a/src/regularization.cc b/src/regularization.cc
+index bbb7404..63481bc 100644
+--- a/src/regularization.cc
++++ b/src/regularization.cc
+@@ -26,7 +26,7 @@ float L1Regularization(MatrixArray &w, float L1, int m) {
+        nk = w.matrix[i]->shape[1];
+        for (j=0;j<nj;j++) {
+            for (k=0;k<nk;k++) {
+-                J += fabsf(w.matrix[i]->data[j][k]);
++                J += fabs(w.matrix[i]->data[j][k]);
+            }
+        }
+    }

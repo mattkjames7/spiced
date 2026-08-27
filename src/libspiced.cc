@@ -931,9 +931,9 @@ void getAvMav(int n, float *mlt, float *R, bool ShowDC, bool OnlyDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete mavps;
-	delete mavpt;
+	delete[] prob;
+	delete[] mavps;
+	delete[] mavpt;
 	
 }
 
@@ -987,9 +987,9 @@ void getAvMavCart(int n, float *x, float *y, bool ShowDC, bool OnlyDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete mavps;
-	delete mavpt;
+	delete[] prob;
+	delete[] mavps;
+	delete[] mavpt;
 	
 }
 
@@ -1044,9 +1044,9 @@ void getScaledMav(int n, float *mlt, float *R, float *smr, bool ShowDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete mavps;
-	delete mavpt;
+	delete[] prob;
+	delete[] mavps;
+	delete[] mavpt;
 	
 }
 
@@ -1101,9 +1101,9 @@ void getScaledMavCart(int n, float *x, float *y, float *smr, bool ShowDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete mavps;
-	delete mavpt;
+	delete[] prob;
+	delete[] mavps;
+	delete[] mavpt;
 	
 }
 
@@ -1157,9 +1157,9 @@ void getAvDen(int n, float *mlt, float *R, bool ShowDC, bool OnlyDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }
 
@@ -1213,9 +1213,9 @@ void getAvDenCart(int n, float *x, float *y, bool ShowDC, bool OnlyDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }
 
@@ -1270,9 +1270,9 @@ void getScaledDen(int n, float *mlt, float *R, float *smr, bool ShowDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }
 
@@ -1327,9 +1327,9 @@ void getScaledDenCart(int n, float *x, float *y, float *smr, bool ShowDC,
 	}
 	
 	/* delete temporary arrays */
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }
 
@@ -1388,11 +1388,11 @@ void getAvPMD(int n, float *mlt, float *R, bool ShowDC, bool OnlyDC,
 	}
 	
 	/* delete temporary arrays */
-	delete mavps;
-	delete mavpt;
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] mavps;
+	delete[] mavpt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }
 
@@ -1450,11 +1450,11 @@ void getAvPMDCart(int n, float *x, float *y, bool ShowDC, bool OnlyDC,
 	}
 
 	/* delete temporary arrays */
-	delete mavps;
-	delete mavpt;
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] mavps;
+	delete[] mavpt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }
 
@@ -1513,11 +1513,11 @@ void getScaledPMD(int n, float *mlt, float *R, float *smr, bool ShowDC,
 	}
 	
 	/* delete temporary arrays */
-	delete mavps;
-	delete mavpt;
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] mavps;
+	delete[] mavpt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }
 
@@ -1576,10 +1576,10 @@ void getScaledPMDCart(int n, float *x, float *y, float *smr, bool ShowDC,
 	}
 	
 	/* delete temporary arrays */
-	delete mavps;
-	delete mavpt;
-	delete prob;
-	delete ps;
-	delete pt;
+	delete[] mavps;
+	delete[] mavpt;
+	delete[] prob;
+	delete[] ps;
+	delete[] pt;
 	
 }

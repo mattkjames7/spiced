@@ -76,7 +76,7 @@ void MavTrans::PSTransform(int n, float *r, float *m, float *mt) {
 			mt[i] = (float) ((pow((double) m[i],lambda[i]) - 1.0)/lambda[i]);
 		}
 	}
-	delete lambda;
+	delete[] lambda;
 }	
 
 /***********************************************************************
@@ -110,7 +110,7 @@ void MavTrans::PSRevTransform(int n, float *r, float *mt, float *m) {
 			m[i] = (float) pow((((double) mt[i])*lambda[i] + 1.0),1.0/lambda[i]);
 		}
 	}
-	delete lambda;
+	delete[] lambda;
 }	
 
 /***********************************************************************
@@ -143,7 +143,7 @@ void MavTrans::PTTransform(int n, float *r, float *m, float *mt) {
 			mt[i] = (float) ((pow((double) m[i],lambda[i]) - 1.0)/lambda[i]);
 		}
 	}
-	delete lambda;
+	delete[] lambda;
 }	
 
 /***********************************************************************
@@ -177,6 +177,5 @@ void MavTrans::PTRevTransform(int n, float *r, float *mt, float *m) {
 			m[i] = (float) pow((((double) mt[i])*lambda[i] + 1.0),1.0/lambda[i]);
 		}
 	}
-	delete lambda;
+	delete[] lambda;
 }	
-

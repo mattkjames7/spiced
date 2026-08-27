@@ -38,12 +38,11 @@ target_include_directories(run_tests PRIVATE
 # Find OpenMP for test compilation
 find_package(OpenMP REQUIRED)
 
-# Link against spiced library, libann, and gtest
+# test_runner.cc supplies main(), so link gtest without gtest_main.
 target_link_libraries(run_tests PRIVATE
     spiced
     ann
     gtest
-    gtest_main
     OpenMP::OpenMP_CXX
 )
 
