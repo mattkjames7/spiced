@@ -14,6 +14,8 @@
 #endif
 
 struct ANNModel::Impl {
+    // The selected type determines the generated network parameters, input
+    // scaling convention, inverse transform, and validation rules.
     ANNModelType type;
     std::unique_ptr<ann::NetworkFunc> network;
     std::unique_ptr<MavTrans> mav_transform;
@@ -31,6 +33,9 @@ struct ANNModel::Impl {
         }
 
         std::vector<int> layers(params->layers.begin(), params->layers.end());
+        // libann provides a constructor for an empty network. Populate that
+        // network from the generated C++ object instead of deserializing a
+        // binary blob.
         network = std::make_unique<ann::NetworkFunc>(
             static_cast<int>(layers.size()), layers.data(),
             "softplus", "linear", "mean_squared");
@@ -61,10 +66,14 @@ struct ANNModel::Impl {
     }
 
     bool is_direct_model() const {
+        // MavH and Prob network outputs are already in their final physical
+        // domain. The other four networks predict transformed quantities and
+        // therefore need special DC handling around the inverse transform.
         return type == ANNModelType::MavH || type == ANNModelType::Prob;
     }
 
     bool is_mav_model() const {
+        // Used to apply the common physical ion-mass bounds during validation.
         return type == ANNModelType::MavH || type == ANNModelType::MavPS ||
                type == ANNModelType::MavPT;
     }
@@ -74,6 +83,8 @@ struct ANNModel::Impl {
     }
 
     void reverse_transform(int n, float *R, float *values) {
+        // Cold ion mass has separate plasmasphere/plasmatrough transforms;
+        // both density models share the global density unscaling function.
         switch (type) {
             case ANNModelType::MavPS:
                 mav_transform->PSRevTransform(n, R, values, values);
@@ -113,6 +124,8 @@ void ANNModel::ModelComponents(int n, float *mlt, float *R,
     }
     ann_->Predict(n, input_ptrs.data(), prediction_ptrs.data());
 
+    // Network output 0 is DC. The next N outputs are real Fourier
+    // coefficients and the final N are their matching imaginary coefficients.
     for (int point = 0; point < n; ++point) {
         dc[point] = predictions[point][0];
         const float angle = mlt[point] * 2.0f * static_cast<float>(M_PI);
@@ -154,12 +167,16 @@ void ANNModel::Model(int n, float *mlt, float *R, float *activity,
     std::vector<std::vector<float>> periodic(components, std::vector<float>(n));
     std::vector<float *> periodic_ptrs(components);
     for (int i = 0; i < n; ++i) {
+        // Hot ion mass was trained against F10.7; every other ANN model uses
+        // SMR as its second input feature.
         scaled_activity[i] = impl_->type == ANNModelType::MavH
             ? rescaleF107(activity[i]) : rescaleSMR(activity[i]);
     }
     for (int i = 0; i < components; ++i) periodic_ptrs[i] = periodic[i].data();
     ModelComponents(n, mlt, R, scaled_activity.data(), dc.data(), periodic_ptrs.data());
 
+    // Direct models can exclude DC before summing harmonics. For transformed
+    // outputs, DC must remain until values have returned to physical units.
     for (int point = 0; point < n; ++point) {
         out[point] = impl_->is_direct_model() && !show_dc && !only_dc ? 0.0f : dc[point];
     }
@@ -176,6 +193,8 @@ void ANNModel::Model(int n, float *mlt, float *R, float *activity,
         impl_->reverse_transform(n, R, dc.data());
     }
     if (!impl_->is_direct_model() && !only_dc && !show_dc) {
+        // Because the inverse transform is nonlinear, transform total and DC
+        // independently and only then calculate the periodic contribution.
         for (int point = 0; point < n; ++point) out[point] -= dc[point];
     }
 

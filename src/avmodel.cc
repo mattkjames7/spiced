@@ -16,6 +16,8 @@
 #endif
 
 struct AvModel::Impl {
+    // The model type selects both the parameter set and the few pieces of
+    // model-specific post-processing used by the shared evaluation code.
     AvModelType type;
     std::vector<float> dc;
     std::vector<std::vector<float>> real;
@@ -47,6 +49,7 @@ struct AvModel::Impl {
     }
 
     int component_count() const {
+        // Each matching real/imaginary row describes one Fourier harmonic.
         return static_cast<int>(std::min(real.size(), imag.size()));
     }
 
@@ -55,10 +58,14 @@ struct AvModel::Impl {
     }
 
     bool is_direct_model() const {
+        // MavH and Prob are already expressed in physical output units. The
+        // other models are evaluated in a transformed space, where removing
+        // the DC term must happen after applying the inverse transform.
         return type == AvModelType::MavH || type == AvModelType::Prob;
     }
 
     bool is_mav_model() const {
+        // All three ion-mass models share the physical 1--16 amu limits.
         return type == AvModelType::MavH || type == AvModelType::MavPS ||
                type == AvModelType::MavPT;
     }
@@ -72,6 +79,9 @@ struct AvModel::Impl {
         }
 
         for (int component = 0; component < component_count(); ++component) {
+            // The stored real and imaginary coefficients are radial
+            // polynomials. Their values form the Fourier coefficient pair at
+            // each requested radius.
             polynomial(static_cast<int>(real[component].size()) - 1,
                        real[component].data(), n, radius, real_values.data());
             polynomial(static_cast<int>(imag[component].size()) - 1,
@@ -79,6 +89,8 @@ struct AvModel::Impl {
             const float frequency = static_cast<float>(component + 1) / 24.0f;
             for (int point = 0; point < n; ++point) {
                 out[component][point] =
+                    // Equivalent to amplitude*cos(angle + phase), without
+                    // converting the coefficient pair to polar form first.
                     real_values[point] * std::cos(frequency * angle[point]) -
                     imag_values[point] * std::sin(frequency * angle[point]);
             }
@@ -86,6 +98,8 @@ struct AvModel::Impl {
     }
 
     void reverse_transform(int n, float *radius, float *values) {
+        // Cold ion mass uses radius-dependent lookup transforms; electron
+        // density uses the Box-Cox transform fitted during model training.
         switch (type) {
             case AvModelType::MavPS:
                 mav_transform->PSRevTransform(n, radius, values, values);
@@ -108,6 +122,8 @@ AvModel::AvModel(AvModelType type) : impl_(new Impl(type)) {}
 AvModel::~AvModel() { delete impl_; }
 
 void AvModel::DC(int n, float *R, float *out) {
+    // MavH and Prob have bespoke sigmoid-like DC fits. All remaining models
+    // use the polynomial coefficients stored in the generated header.
     switch (impl_->type) {
         case AvModelType::MavH:
             for (int i = 0; i < n; ++i) {
@@ -166,6 +182,8 @@ void AvModel::Model(int n, float *mlt, float *R, bool show_dc, bool only_dc,
     for (int i = 0; i < components; ++i) periodic_ptrs[i] = periodic[i].data();
     ModelComponents(n, mlt, R, dc.data(), periodic_ptrs.data());
 
+    // Direct models can omit DC simply by starting from zero. Transformed
+    // models must retain it until after their inverse transform below.
     for (int point = 0; point < n; ++point) {
         out[point] = impl_->is_direct_model() && !show_dc && !only_dc ? 0.0f : dc[point];
     }
@@ -182,6 +200,8 @@ void AvModel::Model(int n, float *mlt, float *R, bool show_dc, bool only_dc,
         impl_->reverse_transform(n, R, dc.data());
     }
     if (!impl_->is_direct_model() && !only_dc && !show_dc) {
+        // Inverse transforms are nonlinear, so transform both totals and DC
+        // separately before subtracting them in physical units.
         for (int point = 0; point < n; ++point) out[point] -= dc[point];
     }
 
