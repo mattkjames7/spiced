@@ -138,7 +138,7 @@ struct ANNModelParams {
 
 """
     for filename, description in MODEL_FILES.items():
-        header += convert_ann_params(os.path.join(SRC_DIR, filename), description)
+        header += convert_ann_params(os.path.join(CURRENT_DIR, filename), description)
 
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(header)

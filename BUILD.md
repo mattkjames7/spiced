@@ -77,11 +77,13 @@ The build automatically fetches:
 
 ## Binary Data Files
 
-SPICED embeds several binary data files (`.bin` files) containing pre-trained model parameters:
+Legacy model binaries and their conversion scripts are retained in `legacy/`.
+The model parameters used at runtime have been converted to C++ headers, except
+for `mavlambda.bin`, which is still embedded by the build:
 - macOS: Uses `xxd` to convert binaries to C++ source files
 - Linux: Uses `ld -r -b binary` to create linkable object files
 
-These binaries are automatically handled by the CMake build system.
+This remaining binary is automatically handled by the CMake build system.
 
 ## Platform-Specific Notes
 

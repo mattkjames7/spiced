@@ -25,6 +25,7 @@ set(SPICED_SOURCES
 set(BINARY_FILES
     mavlambda
 )
+set(LEGACY_DATA_DIR "${CMAKE_SOURCE_DIR}/legacy")
 
 # Create directory for generated object files
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/binary_objects")
@@ -34,7 +35,7 @@ function(add_binary_dependencies)
     if(APPLE)
         # macOS: use xxd to convert binary to C++ source
         foreach(bin_name ${BINARY_FILES})
-            set(bin_file "${CMAKE_CURRENT_SOURCE_DIR}/${bin_name}.bin")
+            set(bin_file "${LEGACY_DATA_DIR}/${bin_name}.bin")
             set(cc_file "${CMAKE_CURRENT_BINARY_DIR}/${bin_name}_binary.cc")
             
             add_custom_command(
@@ -45,7 +46,7 @@ function(add_binary_dependencies)
                 COMMAND rm -f ${cc_file}.bak
                 DEPENDS ${bin_file}
                 COMMENT "Embedding binary file ${bin_name}.bin (macOS)"
-                WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                WORKING_DIRECTORY "${LEGACY_DATA_DIR}"
             )
             
             list(APPEND SPICED_BINARY_SOURCES "${cc_file}")
@@ -53,7 +54,7 @@ function(add_binary_dependencies)
     else()
         # Linux/other: use ld to create object files
         foreach(bin_name ${BINARY_FILES})
-            set(bin_file "${CMAKE_CURRENT_SOURCE_DIR}/${bin_name}.bin")
+            set(bin_file "${LEGACY_DATA_DIR}/${bin_name}.bin")
             set(obj_file "${CMAKE_CURRENT_BINARY_DIR}/binary_objects/${bin_name}.o")
             
             add_custom_command(
@@ -61,7 +62,7 @@ function(add_binary_dependencies)
                 COMMAND ld -r -b binary -o ${obj_file} ${bin_name}.bin
                 DEPENDS ${bin_file}
                 COMMENT "Embedding binary file ${bin_name}.bin (Linux)"
-                WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                WORKING_DIRECTORY "${LEGACY_DATA_DIR}"
             )
             
             list(APPEND SPICED_BINARY_OBJECTS "${obj_file}")

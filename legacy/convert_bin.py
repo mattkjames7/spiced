@@ -100,7 +100,7 @@ struct ModelParams {
 
 """
     for file, description in model_files.items():
-        fname = os.path.join(SRC_DIR, file)
+        fname = os.path.join(CURRENT_DIR, file)
         buffer += convert_static_model_params(fname, description)
 
     header_path = os.path.join(SRC_DIR, "model_params.h")
