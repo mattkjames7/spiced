@@ -28,10 +28,9 @@ target_include_directories(spiced PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
-# Link libann
-target_link_libraries(spiced PRIVATE
-    $<BUILD_INTERFACE:ann>
-)
+# spiced.h exposes libann types, so consumers need libann's usage requirements
+# (including the OpenMP headers and compiler flags).
+target_link_libraries(spiced PUBLIC ann)
 
 # Compiler warnings. Optimization is selected by the Release configuration.
 if(MSVC)
