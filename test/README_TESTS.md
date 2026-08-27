@@ -9,12 +9,12 @@ The test suite uses Google Test with automated assertions. Each test file focuse
 ## Test Files
 
 ### Active Test Files (gtest-based)
-- **test_probmodels.cc** - Tests for probability models (`AvModel`, `ANNProbModel`)
-- **test_psmodels.cc** - Tests for PS models (`AvModel`, `ANNPSModel`)
-- **test_ptmodels.cc** - Tests for PT models (`AvModel`, `ANNPTModel`)
-- **test_mavhmodels.cc** - Tests for Mav H models (`AvModel`, `ANNMavHModel`)
-- **test_mavpsmodels.cc** - Tests for Mav PS models (`AvModel`, `ANNMavPSModel`)
-- **test_mavptmodels.cc** - Tests for Mav PT models (`AvModel`, `ANNMavPTModel`)
+- **test_probmodels.cc** - Tests for probability models (`AvModel`, `ANNModel`)
+- **test_psmodels.cc** - Tests for PS models (`AvModel`, `ANNModel`)
+- **test_ptmodels.cc** - Tests for PT models (`AvModel`, `ANNModel`)
+- **test_mavhmodels.cc** - Tests for Mav H models (`AvModel`, `ANNModel`)
+- **test_mavpsmodels.cc** - Tests for Mav PS models (`AvModel`, `ANNModel`)
+- **test_mavptmodels.cc** - Tests for Mav PT models (`AvModel`, `ANNModel`)
 - **test_mavtrans.cc** - Tests for MavTrans transformations (forward and reverse)
 - **test_netfunc.cc** - Tests for NetworkFunc ANN predictions
 - **test_runner.cc** - Main test runner entry point

@@ -30,22 +30,22 @@ void initModels() {
 	
 	/* check if the ANN models are loaded */
 	if (gAnnMavH == NULL) {
-		gAnnMavH = new ANNMavHModel();
+		gAnnMavH = new ANNModel(ANNModelType::MavH);
 	}
 	if (gAnnMavPS == NULL) {
-		gAnnMavPS = new ANNMavPSModel();
+		gAnnMavPS = new ANNModel(ANNModelType::MavPS);
 	}
 	if (gAnnMavPT == NULL) {
-		gAnnMavPT = new ANNMavPTModel();
+		gAnnMavPT = new ANNModel(ANNModelType::MavPT);
 	}
 	if (gAnnProb == NULL) {
-		gAnnProb = new ANNProbModel();
+		gAnnProb = new ANNModel(ANNModelType::Prob);
 	}
 	if (gAnnPS == NULL) {
-		gAnnPS = new ANNPSModel();
+		gAnnPS = new ANNModel(ANNModelType::PS);
 	}
 	if (gAnnPT == NULL) {
-		gAnnPT = new ANNPTModel();
+		gAnnPT = new ANNModel(ANNModelType::PT);
 	}
 	
 }

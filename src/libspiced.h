@@ -4,12 +4,7 @@
 #include <stdlib.h>
 
 #include "avmodel.h"
-#include "annmavhmodel.h"
-#include "annmavpsmodel.h"
-#include "annmavptmodel.h"
-#include "annprobmodel.h"
-#include "annpsmodel.h"
-#include "annptmodel.h"
+#include "annmodel.h"
 #endif
 
 /* this is where the models will be stored during runtime */
@@ -20,12 +15,12 @@ AvModel *gAvProb = NULL;
 AvModel *gAvPS = NULL;
 AvModel *gAvPT = NULL;
 
-ANNMavHModel *gAnnMavH = NULL;
-ANNMavPSModel *gAnnMavPS = NULL;
-ANNMavPTModel *gAnnMavPT = NULL;
-ANNProbModel *gAnnProb = NULL;
-ANNPSModel *gAnnPS = NULL;
-ANNPTModel *gAnnPT = NULL;
+ANNModel *gAnnMavH = NULL;
+ANNModel *gAnnMavPS = NULL;
+ANNModel *gAnnMavPT = NULL;
+ANNModel *gAnnProb = NULL;
+ANNModel *gAnnPS = NULL;
+ANNModel *gAnnPT = NULL;
 
 extern "C" {
 /***********************************************************************

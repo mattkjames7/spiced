@@ -1,12 +1,6 @@
 # List of source files
 set(SPICED_SOURCES
     annmodel.cc
-    annmavhmodel.cc
-    annmavpsmodel.cc
-    annmavptmodel.cc
-    annprobmodel.cc
-    annpsmodel.cc
-    annptmodel.cc
     avmodel.cc
     mavtrans.cc
     polynomial.cc

@@ -36,14 +36,14 @@ protected:
 
 TEST_F(NetworkFuncTest, CreateNetworkFunc) {
     // Test that we can create a NetworkFunc object
-    ANNMavHModel ann;
+    ANNModel ann(ANNModelType::MavH);
     
     // If we get here without crashing, the object was created successfully
     SUCCEED();
 }
 
 TEST_F(NetworkFuncTest, PredictModelComponents) {
-    ANNMavHModel ann;
+    ANNModel ann(ANNModelType::MavH);
     
     // Prepare input - rescale R and F10.7 values
     std::vector<float*> anin_ptrs(n);

@@ -41,7 +41,7 @@ TEST_F(MavPTModelsTest, AverageMavPTModel) {
 }
 
 TEST_F(MavPTModelsTest, ANNMavPTModel) {
-    ANNMavPTModel ann;
+    ANNModel ann(ANNModelType::MavPT);
     
     ann.Model(n, M.data(), R.data(), smr.data(), true, false, true, 1, 3, true, out.data());
     

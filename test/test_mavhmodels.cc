@@ -41,7 +41,7 @@ TEST_F(MavHModelsTest, AverageMavHModel) {
 }
 
 TEST_F(MavHModelsTest, ANNMavHModel) {
-    ANNMavHModel ann;
+    ANNModel ann(ANNModelType::MavH);
     
     ann.Model(n, M.data(), R.data(), f107.data(), true, false, true, 1, 3, out.data());
     

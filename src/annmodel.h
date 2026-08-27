@@ -1,43 +1,35 @@
-#ifndef __ANNMODEL_H__
-#define __ANNMODEL_H__
-#include <stdio.h>
-#include <stdlib.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
+#pragma once
+
 #include <ann.h>
-#include "rescale.h"
-#include "ann_model_params.h"
 
-/***********************************************************************
- * NAME : 	class ANNModel
- * 
- * DESCRIPTION : This is the basic model class object for storing the 
- * 				ANN object and obtaining the model parameters. This 
- * 				class should not be used directly, it should be 
- * 				inherited by one of the other model classes.
- * 
- * 
- * ********************************************************************/
+enum class ANNModelType { MavH, MavPS, MavPT, Prob, PS, PT };
+
 class ANNModel {
-	public:
-		/* This ann will provide the components of the model */
-		ann::NetworkFunc *ann_;
-		
-		/* Load the neural network */
-		void LoadANN(const ANNModelParams &);
-		
-		/* calculate the model components */
-		/* Calculate the model components */
-		void ModelComponents(int,float*,float*,float*,float*,float**);
-		void ModelComponentsCart(int,float*,float*,float*,float*,float**);
+public:
+    explicit ANNModel(ANNModelType type);
+    ~ANNModel();
 
-		/* Cartesian to MLT and R */
-		void CartMLTR(int,float*,float*,float*,float*);
-		
-		/* we need to know the number of m-numbers */
-		int nm_, *m_;
-		
-		/* frequencies */
-		float *wl_;
+    ANNModel(const ANNModel &) = delete;
+    ANNModel &operator=(const ANNModel &) = delete;
+
+    void Model(int n, float *mlt, float *R, float *activity, bool show_dc,
+               bool only_dc, bool validate, int m0, int m1, float *out);
+    void Model(int n, float *mlt, float *R, float *activity, bool show_dc,
+               bool only_dc, bool validate, int m0, int m1,
+               bool reverse_transform, float *out);
+    void ModelCart(int n, float *x, float *y, float *activity, bool show_dc,
+                   bool only_dc, bool validate, int m0, int m1, float *out);
+    void ModelCart(int n, float *x, float *y, float *activity, bool show_dc,
+                   bool only_dc, bool validate, int m0, int m1,
+                   bool reverse_transform, float *out);
+    void ModelComponents(int n, float *mlt, float *R, float *scaled_activity,
+                         float *dc, float **periodic);
+    void ModelComponentsCart(int n, float *x, float *y, float *scaled_activity,
+                             float *dc, float **periodic);
+
+    ann::NetworkFunc *ann_;
+
+private:
+    struct Impl;
+    Impl *impl_;
 };
-#endif
