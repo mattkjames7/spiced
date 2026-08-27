@@ -14,30 +14,27 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-void AvModel::ReadModelParams(unsigned char *ptr) {
+void AvModel::ReadModelParams(const ModelParams &params) {
+	ndc_ = static_cast<int>(params.dc.size());
+	dc_ = new float[ndc_];
+	std::copy(params.dc.begin(), params.dc.end(), dc_);
 
-	/* create a local copy to the pointer */
-	unsigned char *p = ptr;
-
-	/* now let's read in the data starting with the DC stuff*/
-	p = ann::readArray(p,&dc_,&ndc_);
+	Rshape_[0] = static_cast<int>(params.real.size());
+	Rshape_[1] = Rshape_[0] == 0 ? 0 : static_cast<int>(params.real[0].size());
+	R_ = new float*[Rshape_[0]];
+	for (int i = 0; i < Rshape_[0]; ++i) {
+		R_[i] = new float[Rshape_[1]];
+		std::copy(params.real[i].begin(), params.real[i].end(), R_[i]);
+	}
 	
-	/* Real components */
-	p = ann::readArray(p,&R_,Rshape_);
-	
-	/* reverse the elements of the array */
-	int i,j;
-	for (i=0;i<Rshape_[1];i++) {  // I think this might be a bug: should it be Rshape_[0]?
-		reverseArray(Rshape_[1],R_[i]);
+	Ishape_[0] = static_cast<int>(params.imag.size());
+	Ishape_[1] = Ishape_[0] == 0 ? 0 : static_cast<int>(params.imag[0].size());
+	I_ = new float*[Ishape_[0]];
+	for (int i = 0; i < Ishape_[0]; ++i) {
+		I_[i] = new float[Ishape_[1]];
+		std::copy(params.imag[i].begin(), params.imag[i].end(), I_[i]);
 	}
 
-	/* Imaginary bits */
-	p = ann::readArray(p,&I_,Ishape_);
-
-	/* reverse the elements of the array */
-	for (i=0;i<Ishape_[1];i++) {
-		reverseArray(Ishape_[1],I_[i]);
-	}
 }
 
 

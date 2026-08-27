@@ -11,11 +11,12 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-AvPTModel::AvPTModel(unsigned char *ptr) {
+AvPTModel::AvPTModel() {
 	
 	/* all we need to do is initialize the object by reading in the 
 	 * model parameters from the provided memory address */
-	ReadModelParams(ptr);
+	ReadModelParams(pt);
+	reverseArray(ndc_, dc_);
 	
 	/* reverse the elements of the DC polynomial */
 	reverseArray(ndc_,dc_);

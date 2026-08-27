@@ -11,11 +11,12 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-AvProbModel::AvProbModel(unsigned char *ptr) {
+AvProbModel::AvProbModel() {
 	
 	/* all we need to do is initialize the object by reading in the 
 	 * model parameters from the provided memory address */
-	ReadModelParams(ptr);
+	ReadModelParams(prob);
+	reverseArray(ndc_, dc_);
 	
 	/* we could also do with storing the m-numbers and equivalent
 	 * wave lengths */

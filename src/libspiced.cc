@@ -10,22 +10,22 @@
 void initModels() {
 	/* check if the average models are loaded */
 	if (gAvMavH == NULL) {
-		gAvMavH = new AvMavHModel(&_binary_mavh_bin_start);
+		gAvMavH = new AvMavHModel();
 	}
 	if (gAvMavPS == NULL) {
-		gAvMavPS = new AvMavPSModel(&_binary_mavcps_bin_start);
+		gAvMavPS = new AvMavPSModel();
 	}
 	if (gAvMavPT == NULL) {
-		gAvMavPT = new AvMavPTModel(&_binary_mavcpt_bin_start);
+		gAvMavPT = new AvMavPTModel();
 	}
 	if (gAvProb == NULL) {
-		gAvProb = new AvProbModel(&_binary_prob_bin_start);
+		gAvProb = new AvProbModel();
 	}
 	if (gAvPS == NULL) {
-		gAvPS = new AvPSModel(&_binary_ps_bin_start);
+		gAvPS = new AvPSModel();
 	}
 	if (gAvPT == NULL) {
-		gAvPT = new AvPTModel(&_binary_pt_bin_start);
+		gAvPT = new AvPTModel();
 	}
 	
 	/* check if the ANN models are loaded */

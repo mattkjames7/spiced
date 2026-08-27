@@ -25,7 +25,7 @@ protected:
 };
 
 TEST_F(MavPTModelsTest, AverageMavPTModel) {
-    AvMavPTModel av(&_binary_mavcpt_bin_start);
+    AvMavPTModel av;
     
     av.Model(n, M.data(), R.data(), true, false, true, 1, 3, true, out.data());
     

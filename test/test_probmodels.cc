@@ -25,7 +25,7 @@ protected:
 };
 
 TEST_F(ProbModelsTest, AverageProbModel) {
-    AvProbModel av(&_binary_prob_bin_start);
+    AvProbModel av;
     
     av.Model(n, M.data(), R.data(), true, false, true, 1, 3, out.data());
     

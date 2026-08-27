@@ -4,14 +4,8 @@
 #include <stdlib.h>
 #include <ann.h>
 
+struct ModelParams;
 
-/* these are the memory addresses for the average model parameters */
-extern unsigned char _binary_mavh_bin_start;
-extern unsigned char _binary_mavcps_bin_start;
-extern unsigned char _binary_mavcpt_bin_start;
-extern unsigned char _binary_prob_bin_start;
-extern unsigned char _binary_ps_bin_start;
-extern unsigned char _binary_pt_bin_start;
 
 /* these are the memory addresses for the ANN model parameters */
 extern unsigned char _binary_mavhann_bin_start;
@@ -1335,7 +1329,7 @@ class AvModel {
 		float *wl_;
 		
 		/* read in the model variables */
-		void ReadModelParams(unsigned char *);
+		void ReadModelParams(const ModelParams &);
 		
 		/* calculate the model components */
 		void PeriodicComponents(int,float*,float*,float**);
@@ -1361,7 +1355,7 @@ class AvModel {
 class AvMavHModel: public AvModel {
 	public:
 		/* model constructor */
-		AvMavHModel(unsigned char *);
+		AvMavHModel();
 		
 		/* model destructor */
 		~AvMavHModel();
@@ -1392,7 +1386,7 @@ class AvMavHModel: public AvModel {
 class AvMavPSModel: public AvModel {
 	public:
 		/* model constructor */
-		AvMavPSModel(unsigned char *);
+		AvMavPSModel();
 		
 		/* model destructor */
 		~AvMavPSModel();
@@ -1424,7 +1418,7 @@ class AvMavPSModel: public AvModel {
 class AvMavPTModel: public AvModel {
 	public:
 		/* model constructor */
-		AvMavPTModel(unsigned char *);
+		AvMavPTModel();
 		
 		/* model destructor */
 		~AvMavPTModel();
@@ -1455,7 +1449,7 @@ class AvMavPTModel: public AvModel {
 class AvProbModel: public AvModel {
 	public:
 		/* model constructor */
-		AvProbModel(unsigned char *);
+		AvProbModel();
 		
 		/* model destructor */
 		~AvProbModel();
@@ -1483,7 +1477,7 @@ class AvProbModel: public AvModel {
 class AvPSModel: public AvModel {
 	public:
 		/* model constructor */
-		AvPSModel(unsigned char *);
+		AvPSModel();
 		
 		/* model destructor */
 		~AvPSModel();
@@ -1511,7 +1505,7 @@ class AvPSModel: public AvModel {
 class AvPTModel: public AvModel {
 	public:
 		/* model constructor */
-		AvPTModel(unsigned char *);
+		AvPTModel();
 		
 		/* model destructor */
 		~AvPTModel();

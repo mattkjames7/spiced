@@ -11,11 +11,11 @@
  * 								parameters are stored.
  * 
  * ********************************************************************/
-AvMavPTModel::AvMavPTModel(unsigned char *ptr) {
+AvMavPTModel::AvMavPTModel() {
 	
 	/* all we need to do is initialize the object by reading in the 
 	 * model parameters from the provided memory address */
-	ReadModelParams(ptr);
+	ReadModelParams(mavcpt);
 	
 	/* we could also do with storing the m-numbers and equivalent
 	 * wave lengths */
@@ -31,9 +31,6 @@ AvMavPTModel::AvMavPTModel(unsigned char *ptr) {
 	}
 	
 	
-	/* reverse DC for this model */
-	reverseArray(ndc_,dc_);
-		
 	/* Finally store an object which can transform the mav values*/
 	MT_ = new MavTrans();
 }

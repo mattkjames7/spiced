@@ -25,7 +25,7 @@ protected:
 };
 
 TEST_F(MavHModelsTest, AverageMavHModel) {
-    AvMavHModel av(&_binary_mavh_bin_start);
+    AvMavHModel av;
     
     av.Model(n, M.data(), R.data(), true, false, true, 1, 3, out.data());
     

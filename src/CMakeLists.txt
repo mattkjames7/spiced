@@ -23,16 +23,10 @@ set(SPICED_SOURCES
 
 # List of binary files to embed
 set(BINARY_FILES
-    mavh
-    mavcps
-    mavcpt
     mavhann
     mavcpsann
     mavcptann
     mavlambda
-    ps
-    pt
-    prob
     psann
     ptann
     probann
