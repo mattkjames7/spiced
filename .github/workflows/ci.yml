@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Configure project
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -GNinja
 
       - name: Build project
-        run: cmake --build build --parallel
+        run: cmake --build build
 
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
@@ -31,7 +31,7 @@ jobs:
           -DCMAKE_PREFIX_PATH="$RUNNER_TEMP/spiced-install"
 
       - name: Build package consumer example
-        run: cmake --build examples/package-consumer/build --parallel
+        run: cmake --build examples/package-consumer/build
 
       - name: Run package consumer example
         run: ./examples/package-consumer/build/spiced_package_example
